@@ -1,7 +1,6 @@
 @mod @mod_pulse @pulse_automation_template @pulse_automation_template_new_condition @javascript
 Feature: Pulse automation templates
-  In order to check the the pulse automation template works
-  As a teacher.
+  In order to check the the pulse automation template works with new condition settings
 
   Background:
     Given the following "categories" exist:
