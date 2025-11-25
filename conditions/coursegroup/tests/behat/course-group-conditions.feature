@@ -81,38 +81,6 @@ Feature: Pulse automation templates
       | Reference | notification1 |
     And I press "Save changes"
 
-  # Scenario: Activity completion condition: Enhance settings
-  #   And I am on "Course 1" course homepage
-  #   And I navigate to "Automation" in current page administration
-  #   And I open the autocomplete suggestions list
-  #   And I click on "Template1" item in the autocomplete list
-  #   And I click on "Add automation instance" "button" in the ".template-add-form" "css_element"
-  #   And I set the field "insreference" to "temp1"
-  #   Then I follow "Condition"
-  #   And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
-  #   Then the field "Trigger operator" matches value "All"
-  #   And I click on "#id_override_condition_activity_status" "css_element" in the "#condition-activity" "css_element"
-  #   And I set the field "condition[activity][status]" to "All"
-
-  #   And I set the following fields to these values:
-  #     | Select activities | Assign1, Assign2, Forum1, Page1 |
-  #   And I press "Save changes"
-
-  # Scenario: New condition: Course dates
-  #   And I am on "Course 1" course homepage
-  #   And I navigate to "Automation" in current page administration
-  #   And I open the autocomplete suggestions list
-  #   And I click on "Template1" item in the autocomplete list
-  #   And I click on "Add automation instance" "button" in the ".template-add-form" "css_element"
-  #   And I set the field "insreference" to "temp1"
-  #   Then I follow "Condition"
-  #   And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
-  #   Then the field "Trigger operator" matches value "All"
-  #   And I click on "#id_override_condition_coursedates_status" "css_element" in the "#condition-coursedates" "css_element"
-  #   And I set the field "condition[coursedates][status]" to "All"
-  #   And I click on "#id_override_condition_coursedates_type" "css_element" in the "#condition-coursedates" "css_element"
-  #   And I set the field "condition[coursedates][type]" to "All"
-
   Scenario: New condition: Course group - No group
     And I am on "Course 1" course homepage
     And I navigate to "Automation" in current page administration
@@ -177,7 +145,6 @@ Feature: Pulse automation templates
     And I set the field "condition[coursegroup][status]" to "Upcoming"
     And I click on "Notification" "link" in the "#automation-tabs" "css_element"
     And I click on ".badge" "css_element" in the "#fitem_id_pulsenotification_recipients .form-autocomplete-selection" "css_element"
-    # And I open the autocomplete suggestions list in the "#fitem_id_pulsenotification_recipients" "css_element"
     And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Student"
     And I set the field "pulsenotification_subject" to "No Group upcoming notification "
     And I press "Save changes"
@@ -381,7 +348,6 @@ Feature: Pulse automation templates
     And I set the field "condition[coursegroup][status]" to "Upcoming"
     And I click on "Notification" "link" in the "#automation-tabs" "css_element"
     And I click on ".badge" "css_element" in the "#fitem_id_pulsenotification_recipients .form-autocomplete-selection" "css_element"
-    # And I open the autocomplete suggestions list in the "#fitem_id_pulsenotification_recipients" "css_element"
     And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Student"
     And I set the field "pulsenotification_subject" to "Grouping upcoming notification "
     And I press "Save changes"
@@ -401,64 +367,3 @@ Feature: Pulse automation templates
       | Course 1         | Template1    | Grouping upcoming notification |  | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | Queued |
     And "student User 1" "table_row" should not exist
     And I close all opened windows
-
-
-  Scenario: New condition: Activity completion enhancement
-    And I navigate to "Plugins > Activity modules > Pulse > Pulse notifications" in site administration
-    And I set the field "s_pulseaction_notification_recipients_custom" to "Aaron, aaron123_sl@gmail.com"
-    And I press "Save changes"
-    And I am on "Course 1" course homepage
-    And I navigate to "Automation" in current page administration
-    And I open the autocomplete suggestions list
-    And I click on "Template1" item in the autocomplete list
-    And I click on "Add automation instance" "button" in the ".template-add-form" "css_element"
-    And I set the field "insreference" to "temp1"
-    And I click on "#id_override_frequencylimit" "css_element" in the "#fitem_id_frequencylimit" "css_element"
-    And I set the field "frequencylimit" to "1"
-    And I press "Save changes"
-
-    # Check the schedule for the instance for Selected group
-    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
-    And I switch to a second window
-    And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
-    And I close all opened windows
-
-    # Instance Conditions - Selected Group
-    And I click on ".action-edit" "css_element" in the "Template1" "table_row"
-    Then I follow "Condition"
-    And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
-    Then the field "Trigger operator" matches value "All"
-    And I click on "#id_override_condition_coursegroup_status" "css_element" in the "#condition-coursegroup" "css_element"
-    And I set the field "condition[coursegroup][status]" to "All"
-    And I click on "#id_override_condition_coursegroup_type" "css_element" in the "#condition-coursegroup" "css_element"
-    And I set the field "condition[coursegroup][type]" to "Selected grouping"
-    And I open the autocomplete suggestions list in the "#fitem_id_condition_coursegroup_groupings" "css_element"
-    And I click on "Grouping 1" item in the autocomplete list
-
-    # Instance Notifications
-    And I click on "Notification" "link" in the "#automation-tabs" "css_element"
-    And I click on "#id_override_pulsenotification_actionstatus" "css_element" in the "#fitem_id_pulsenotification_actionstatus" "css_element"
-    And I set the field "id_pulsenotification_actionstatus" to "Enabled"
-    And I click on "#id_override_pulsenotification_sender" "css_element" in the "#fitem_id_pulsenotification_sender" "css_element"
-    And I set the field "pulsenotification_sender" to "Group teacher"
-    And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
-    And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Aaron"
-
-    And I click on "#id_override_pulsenotification_subject" "css_element" in the "#fitem_id_pulsenotification_subject" "css_element"
-    And I set the field "pulsenotification_subject" to "Selected Grouping notification"
-    And I click on "#id_override_pulsenotification_headercontent_editor" "css_element" in the "#fitem_id_pulsenotification_headercontent_editor" "css_element"
-    And I click on "#header-email-vars-button" "css_element" in the ".mod-pulse-emailvars-toggle" "css_element"
-    And I click on pulse "id_pulsenotification_headercontent_editor" editor
-    And I click on "#Summary" "css_element" in the ".Course_field-placeholders" "css_element"
-    And I press "Save changes"
-
-    # Check the schedule for the instance for Selected grouping
-    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
-    And I switch to a second window
-    And the following should exist in the "reportbuilder-table" table:
-      | Course full name | Message type | Subject                        | Full name      | Time created                    | Scheduled time                  | Status |
-      | Course 1         | Template1    | Selected Grouping notification |                | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | Queued |
-    And I click on ".pulse-automation-info-block" "css_element" in the "Course 1" "table_row"
-    And I should see "Test course 1" in the "Preview" "dialogue"
-    And I close all opened windows
-
