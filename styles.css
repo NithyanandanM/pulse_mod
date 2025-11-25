@@ -319,7 +319,7 @@
     border: 0;
 }
 
-.mod-pulse-automation-table .table-responsive table.generaltable tbody td:first-child {
+.mod-pulse-automation-table .automation-instruction .table-responsive table.generaltable tbody td:first-child {
     text-align: right;
     display: flex;
     justify-content: right;

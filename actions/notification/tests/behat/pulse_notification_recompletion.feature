@@ -45,7 +45,7 @@ Feature: Support recompletion notification action in pulse automation templates
       | student User 1 | Welcome to Acceptance test site | Queued |
     And I am on "Course 1" course homepage
     When I select "More" from secondary navigation
-    And I follow "Course recompletion"
+    And I follow "Course completion"
     And I expand all fieldsets
     And I set the field "Recompletion type" to "On demand"
     And I click on "#id_pulse_1" "css_element"
