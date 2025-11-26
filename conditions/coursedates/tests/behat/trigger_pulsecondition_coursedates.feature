@@ -1,6 +1,6 @@
-@mod @mod_pulse @pulse_triggercondition @pulsecondition_activity @javascript @_file_upload
-Feature: Activity trigger event.
-  In To Verify Pulse Automation Template Conditions for Activity as a Teacher.
+@mod @mod_pulse @pulse_triggercondition @pulsecondition_coursedates @javascript @_file_upload
+Feature: coursedates trigger event.
+  In To Verify Pulse Automation Template Conditions for coursedates as a Teacher.
 
   Background:
     Given the following "course" exist:
@@ -254,5 +254,3 @@ Feature: Activity trigger event.
       | Course full name | Message type | Subject                   | Full name      | Time created                    | Scheduled time        | Status |
       | Course 1         | Template1    | Course date notification  | student User 1 | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | Queued |
     And I close all opened windows
-
-

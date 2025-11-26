@@ -1,6 +1,6 @@
-@mod @mod_pulse @pulse_triggercondition @pulsecondition_activity @javascript @_file_upload
-Feature: Activity trigger event.
-  In To Verify Pulse Automation Template Conditions for Activity as a Teacher.
+@mod @mod_pulse @pulse_triggercondition @pulsecondition_events @javascript @_file_upload
+Feature: Event trigger event.
+  In To Verify Pulse Automation Template Conditions for Event as a Teacher.
 
   Background:
     Given the following "course" exist:
