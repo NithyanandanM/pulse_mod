@@ -26,6 +26,7 @@ Feature: Activity trigger event.
       | teacher1 | C1     | editingteacher |
       | student1 | C1     | student        |
 
+
     And I log in as "admin"
     And I am on "Course 1" course homepage
     And I navigate to "Settings" in current page administration
@@ -458,6 +459,7 @@ Feature: Activity trigger event.
     And I am on "Course 1" course homepage
     And I am on the "Assign3" "assign activity" page
     And I should see "Done" in the ".automatic-completion-conditions .badge" "css_element"
+
     And I log out
 
     # Completion Status

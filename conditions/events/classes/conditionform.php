@@ -357,7 +357,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
             // Module configured for this instance event, and the event is not for this module, continue to next instance.
             if (
                 property_exists($additional, 'modules') && $additional->modules &&
-                $additional->modules !== $data['contextinstanceid'] || $contextconfigured === self::EVENTSCONTEXT_SELECTED
+                $additional->modules !== $data['contextinstanceid'] || $contextconfigured !== self::EVENTSCONTEXT_SELECTED
             ) {
                 continue;
             }

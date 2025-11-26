@@ -211,7 +211,6 @@ class credits {
                 return true;
             }
         } catch (\Exception $e) {
-            debugging('Error allocating credits: ' . $e->getMessage(), DEBUG_DEVELOPER);
             return false;
         }
     }
