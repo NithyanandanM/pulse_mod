@@ -89,7 +89,6 @@ Feature: Activity trigger event.
     And I set the field "condition[events][notifyuser]" to "Affected user"
     And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
     And I set the field "condition[events][eventscontext]" to "Everywhere"
-    And I set the field "Event module" in the "#condition-events" "css_element" to "Assign3"
 
     # Instance Notifications
     And I click on "Notification" "link" in the "#automation-tabs" "css_element"
