@@ -430,4 +430,153 @@ class behat_pulse extends behat_base {
             [$date, $username, $type]
         );
     }
+
+    /**
+     * Change user enrollment time in a course.
+     * This is useful for testing time-based conditions like user inactivity.
+     *
+     * @Given /^I change user enrollment time to "([^"]*)" (minutes|hours|days|weeks) for "([^"]*)" in "([^"]*)"$/
+     * @param string $offset The time offset (can be negative or positive number).
+     * @param string $unit The time unit (minutes, hours, days, or weeks).
+     * @param string $username The username.
+     * @param string $coursename The course name.
+     */
+    public function i_change_user_enrollment_time($offset, $unit, $username, $coursename) {
+        global $DB;
+        // Get user.
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+
+        // Get course.
+        $course = $DB->get_record('course', ['shortname' => $coursename], '*', MUST_EXIST);
+
+        // Convert time unit to seconds.
+
+        // Calculate new enrollment time.
+
+        $newenroltime = strtotime("$offset $unit", time());
+
+        // Get user enrolment records for this course.
+        $sql = "SELECT ue.*
+                FROM {user_enrolments} ue
+                JOIN {enrol} e ON e.id = ue.enrolid
+                WHERE ue.userid = :userid AND e.courseid = :courseid";
+
+        $enrolments = $DB->get_records_sql($sql, [
+            'userid' => $user->id,
+            'courseid' => $course->id
+        ]);
+
+        if (empty($enrolments)) {
+            throw new ExpectationException(
+                "User '{$username}' is not enrolled in course '{$coursename}'",
+                $this->getSession()
+            );
+        }
+
+        // Update all user enrolments for this course.
+        foreach ($enrolments as $enrolment) {
+            $enrolment->timecreated = $newenroltime;
+            $DB->update_record('user_enrolments', $enrolment);
+        }
+    }
+
+    /**
+     * Change user's last course access time.
+     * This is useful for testing access-based inactivity conditions.
+     *
+     * @Given /^I set last course access to "([^"]*)" (minutes|hours|days|weeks) for "([^"]*)" in "([^"]*)"$/
+     * @param string $offset The time offset (positive number for past time).
+     * @param string $unit The time unit (minutes, hours, days, or weeks).
+     * @param string $username The username.
+     * @param string $coursename The course name.
+     */
+    public function i_set_last_course_access($offset, $unit, $username, $coursename) {
+        global $DB;
+
+        // Get user.
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+
+        // Get course.
+        $course = $DB->get_record('course', ['shortname' => $coursename], '*', MUST_EXIST);
+
+
+        $lastaccesstime = strtotime("$offset $unit", time());
+
+
+        // Check if record exists.
+        $lastaccess = $DB->get_record('user_lastaccess', [
+            'userid' => $user->id,
+            'courseid' => $course->id
+        ]);
+
+        if ($lastaccess) {
+            // Update existing record.
+            $lastaccess->timeaccess = $lastaccesstime;
+            $DB->update_record('user_lastaccess', $lastaccess);
+        } else {
+            // Create new record.
+            $record = new stdClass();
+            $record->userid = $user->id;
+            $record->courseid = $course->id;
+            $record->timeaccess = $lastaccesstime;
+            $DB->insert_record('user_lastaccess', $record);
+        }
+    }
+
+    /**
+     * Set activity completion time for a user.
+     * This is useful for testing completion-based inactivity conditions.
+     *
+     * @Given /^I set activity completion time to "([^"]*)" (minutes|hours|days|weeks) for "([^"]*)" on "([^"]*)" in "([^"]*)"$/
+     * @param string $offset The time offset (positive number for past time).
+     * @param string $unit The time unit (minutes, hours, days, or weeks).
+     * @param string $username The username.
+     * @param string $activityname The activity name.
+     * @param string $coursename The course name.
+     */
+    public function i_set_activity_completion_time($offset, $unit, $username, $activityidnumber, $coursename) {
+        global $DB;
+
+        // Get user.
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+
+        // Get course.
+        $course = $DB->get_record('course', ['shortname' => $coursename], '*', MUST_EXIST);
+
+        $cm = $DB->get_record('course_modules', [
+            'course' => $course->id,
+            'idnumber' => $activityidnumber
+        ]);
+
+        if (!$cm) {
+            throw new ExpectationException(
+                "Activity '{$activityidnumber}' not found in course '{$coursename}'",
+                $this->getSession()
+            );
+        }
+
+        // Calculate completion time.
+        $completiontime = strtotime("$offset $unit", time());
+
+        // Check if completion record exists.
+        $completion = $DB->get_record('course_modules_completion', [
+            'coursemoduleid' => $cm->id,
+            'userid' => $user->id
+        ]);
+
+        if ($completion) {
+            // Update existing record.
+            $completion->timemodified = $completiontime;
+            $DB->update_record('course_modules_completion', $completion);
+        } else {
+            // Create new completion record.
+            $record = new stdClass();
+            $record->coursemoduleid = $cm->id;
+            $record->userid = $user->id;
+            $record->completionstate = COMPLETION_COMPLETE;
+            $record->viewed = 1;
+            $record->timemodified = $completiontime;
+            $DB->insert_record('course_modules_completion', $record);
+        }
+    }
 }
