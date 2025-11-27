@@ -32,7 +32,6 @@ defined('MOODLE_INTERNAL') || die();
  * Scheduled task to check for user inactivity and trigger automation conditions.
  */
 class userinactivity extends \core\task\scheduled_task {
-
     /**
      * Get the name of this task.
      *
@@ -126,7 +125,6 @@ class userinactivity extends \core\task\scheduled_task {
             }
 
             mtrace("Triggered automation for {$triggeredcount} users in instance {$instance->id}");
-
         } catch (\Exception $e) {
             mtrace('Error processing user inactivity instance ' . $instance->id . ': ' . $e->getMessage());
         }

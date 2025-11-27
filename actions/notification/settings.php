@@ -50,5 +50,4 @@ if ($hassiteconfig) {
         $default,
         PARAM_TEXT
     ));
-
 }

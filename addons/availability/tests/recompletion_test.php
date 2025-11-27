@@ -23,7 +23,7 @@ namespace pulseaddon_availability;
  * @copyright 2023, bdecent gmbh bdecent.de
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class recompletion_test extends \mod_pulse\lib_test {
+final class recompletion_test extends \mod_pulse\lib_test {
     /**
      * Test local recompletion resets the user availbility in pulse.
      *

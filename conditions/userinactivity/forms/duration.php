@@ -31,7 +31,6 @@ require_once($CFG->dirroot . '/lib/form/duration.php');
  * Duration form element for user inactivity condition.
  */
 class moodlequickform_pulseconditionduration extends MoodleQuickForm_duration {
-
     /**
      * Units used in this element.
      *

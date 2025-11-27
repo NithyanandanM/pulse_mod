@@ -24,9 +24,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['coursedates'] = 'Course dates';
+$string['coursedates_end'] = 'Course end date';
 $string['coursedates_help'] = '<b>Course dates:</b> This automation will be triggered based on the course start and end dates.<br><br><b>Course start date:</b> The date when the course becomes available to users.<br><b>Course end date:</b> The date when the course is no longer available to users.<br><br>You can set specific actions to occur when the course starts or ends, such as sending notifications or enrolling users in follow-up courses.<br><br>';
 $string['coursedates_start'] = 'Course start date';
-$string['coursedates_end'] = 'Course end date';
-$string['pluginname'] = 'Course dates';
 $string['coursedates_type'] = 'Course date type';
+$string['pluginname'] = 'Course dates';
 $string['taskname'] = 'Course dates automation check';

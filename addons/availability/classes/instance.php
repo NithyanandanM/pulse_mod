@@ -105,7 +105,7 @@ class instance extends \mod_pulse\addon\base {
         global $DB;
 
         // Prepare SQL Query.
-        $params = array('userid' => $userid, 'course' => $course->id);
+        $params = ['userid' => $userid, 'course' => $course->id];
         $selectsql = 'userid = ? AND pulseid IN (SELECT id FROM {pulse} WHERE course = ?)';
 
         // Delete records from pulseaddon_availability.
