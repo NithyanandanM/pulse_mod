@@ -166,8 +166,10 @@ class conditionform extends condition_base {
         global $DB;
 
         // check if condition disabled.
-        if (!isset($instancedata->condition['coursegroup']['status']) ||
-            $instancedata->condition['coursegroup']['status'] == self::DISABLED) {
+        if (
+            !isset($instancedata->condition['coursegroup']['status']) ||
+            $instancedata->condition['coursegroup']['status'] == self::DISABLED
+        ) {
             return true;
         }
 
@@ -208,14 +210,13 @@ class conditionform extends condition_base {
                 return false;
             // Groupings.
             case 'selectedgroupings':
-
                 $selectedgroupings = $instancedata->condition['coursegroup']['groupings'] ?? [];
                 $coursegroupings = $DB->get_records('groupings', ['courseid' => $courseid]);
                 if (empty($selectedgroupings) || empty($coursegroupings)) {
                     return false;
                 }
 
-                list($ingrpsql, $ingrpparams) = $DB->get_in_or_equal($selectedgroupings, SQL_PARAMS_NAMED);
+                [$ingrpsql, $ingrpparams] = $DB->get_in_or_equal($selectedgroupings, SQL_PARAMS_NAMED);
                 $sql = "SELECT groupid FROM {groupings_groups} WHERE groupingid $ingrpsql";
                 $groupsingroupings = $DB->get_fieldset_sql($sql, $ingrpparams);
 
@@ -315,7 +316,7 @@ class conditionform extends condition_base {
                 }
 
                 // Check if the group belongs to any of the selected groupings
-                list($insql, $params) = $DB->get_in_or_equal($selectedgroupings, SQL_PARAMS_NAMED);
+                [$insql, $params] = $DB->get_in_or_equal($selectedgroupings, SQL_PARAMS_NAMED);
                 $sql = "SELECT COUNT(*)
                           FROM {groupings_groups}
                          WHERE groupingid $insql AND groupid = :groupid";

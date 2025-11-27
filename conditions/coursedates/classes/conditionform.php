@@ -146,7 +146,10 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $mform->addElement('select', 'condition[coursedates][status]', $coursedatestr, $this->get_options());
         $mform->addHelpButton('condition[coursedates][status]', 'coursedates', 'pulsecondition_coursedates');
 
-        $mform->addElement('select', 'condition[coursedates][type]', get_string('coursedates_type', 'pulsecondition_coursedates'),
+        $mform->addElement(
+            'select',
+            'condition[coursedates][type]',
+            get_string('coursedates_type', 'pulsecondition_coursedates'),
             [
                 'start' => get_string('coursedates_start', 'pulsecondition_coursedates'),
                 'end' => get_string('coursedates_end', 'pulsecondition_coursedates'),

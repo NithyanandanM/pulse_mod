@@ -89,36 +89,60 @@ class conditionform extends \mod_pulse\automation\condition_base {
         // Activity completion type selection.
         $completiontypeoptions = [
             self::ACTVITY_COMPLETION_METHOD_COUNT => get_string('acompletionmethod_count', 'pulsecondition_activity'),
-            self::ACTVITY_COMPLETION_METHOD_SELECTACTIVITY => get_string('acompletionmethod_selectactivity',
-                'pulsecondition_activity'),
+            self::ACTVITY_COMPLETION_METHOD_SELECTACTIVITY => get_string(
+                'acompletionmethod_selectactivity',
+                'pulsecondition_activity'
+            ),
         ];
         $completiontypestr = get_string('acompletionmethod', 'pulsecondition_activity');
-        $mform->addElement('select', 'condition[activity][acompletionmethod]', $completiontypestr,
-            $completiontypeoptions);
-        $mform->addHelpButton('condition[activity][acompletionmethod]', 'acompletionmethod',
-            'pulsecondition_activity');
+        $mform->addElement(
+            'select',
+            'condition[activity][acompletionmethod]',
+            $completiontypestr,
+            $completiontypeoptions
+        );
+        $mform->addHelpButton(
+            'condition[activity][acompletionmethod]',
+            'acompletionmethod',
+            'pulsecondition_activity'
+        );
         $mform->hideIf('condition[activity][acompletionmethod]', 'condition[activity][status]', 'eq', self::DISABLED);
 
         // Activity count field.
-        $mform->addElement('text', 'condition[activity][activitycount]',
-            get_string('activitycount', 'pulsecondition_activity'));
+        $mform->addElement(
+            'text',
+            'condition[activity][activitycount]',
+            get_string('activitycount', 'pulsecondition_activity')
+        );
         $mform->setType('condition[activity][activitycount]', PARAM_INT);
         $mform->addHelpButton('condition[activity][activitycount]', 'activitycount', 'pulsecondition_activity');
         $mform->hideIf('condition[activity][activitycount]', 'condition[activity][status]', 'eq', self::DISABLED);
-        $mform->hideIf('condition[activity][activitycount]', 'condition[activity][acompletionmethod]', 'eq',
-            self::ACTVITY_COMPLETION_METHOD_SELECTACTIVITY);
+        $mform->hideIf(
+            'condition[activity][activitycount]',
+            'condition[activity][acompletionmethod]',
+            'eq',
+            self::ACTVITY_COMPLETION_METHOD_SELECTACTIVITY
+        );
 
         // Activities operator (ANY or ALL).
         $operatoroptions = [
             self::ACTIVITY_OPERATOR_ANY => get_string('activityoperator_any', 'pulsecondition_activity'),
             self::ACTIVITY_OPERATOR_ALL => get_string('activityoperator_all', 'pulsecondition_activity'),
         ];
-        $mform->addElement('select', 'condition[activity][activityoperator]',
-            get_string('activityoperator', 'pulsecondition_activity'), $operatoroptions);
+        $mform->addElement(
+            'select',
+            'condition[activity][activityoperator]',
+            get_string('activityoperator', 'pulsecondition_activity'),
+            $operatoroptions
+        );
         $mform->addHelpButton('condition[activity][activityoperator]', 'activityoperator', 'pulsecondition_activity');
         $mform->hideIf('condition[activity][activityoperator]', 'condition[activity][status]', 'eq', self::DISABLED);
-        $mform->hideIf('condition[activity][activityoperator]', 'condition[activity][acompletionmethod]', 'eq',
-            self::ACTVITY_COMPLETION_METHOD_COUNT);
+        $mform->hideIf(
+            'condition[activity][activityoperator]',
+            'condition[activity][acompletionmethod]',
+            'eq',
+            self::ACTVITY_COMPLETION_METHOD_COUNT
+        );
 
         // Completion status selection.
         $completionstatusoptions = [
@@ -127,8 +151,12 @@ class conditionform extends \mod_pulse\automation\condition_base {
             self::COMPLETION_STATUS_FAILED => get_string('completionstatus_failed', 'pulsecondition_activity'),
             self::COMPLETION_STATUS_PASSED => get_string('completionstatus_passed', 'pulsecondition_activity'),
         ];
-        $mform->addElement('select', 'condition[activity][completionstatus]',
-            get_string('completionstatus', 'pulsecondition_activity'), $completionstatusoptions);
+        $mform->addElement(
+            'select',
+            'condition[activity][completionstatus]',
+            get_string('completionstatus', 'pulsecondition_activity'),
+            $completionstatusoptions
+        );
         $mform->addHelpButton('condition[activity][completionstatus]', 'completionstatus', 'pulsecondition_activity');
         $mform->hideIf('condition[activity][completionstatus]', 'condition[activity][status]', 'eq', self::DISABLED);
     }
@@ -208,8 +236,15 @@ class conditionform extends \mod_pulse\automation\condition_base {
         // Activity Count method.
         if ($completiontype == self::ACTVITY_COMPLETION_METHOD_COUNT) {
             $activitycount = $additional['activitycount'] ?? 1;
-            return $this->check_activity_count_completion($course->id, $userid, $activitycount,
-                $completionstatus, $completion, $fastmodinfo, $modules);
+            return $this->check_activity_count_completion(
+                $course->id,
+                $userid,
+                $activitycount,
+                $completionstatus,
+                $completion,
+                $fastmodinfo,
+                $modules
+            );
         }
 
         // Selected Activities method.
@@ -220,8 +255,14 @@ class conditionform extends \mod_pulse\automation\condition_base {
                 return false;
             }
 
-            return $this->check_selected_activities_completion($modules, $userid, $activityoperator,
-                $completionstatus, $completion, $fastmodinfo);
+            return $this->check_selected_activities_completion(
+                $modules,
+                $userid,
+                $activityoperator,
+                $completionstatus,
+                $completion,
+                $fastmodinfo
+            );
         }
 
         return false;
@@ -239,8 +280,15 @@ class conditionform extends \mod_pulse\automation\condition_base {
      * @param array $modules Array of course module IDs to check. If empty, check all activities.
      * @return bool True if the count is met, false otherwise.
      */
-    protected function check_activity_count_completion($courseid, $userid, $requiredcount, $completionstatus,
-        $completion, $fastmodinfo, $modules = []) {
+    protected function check_activity_count_completion(
+        $courseid,
+        $userid,
+        $requiredcount,
+        $completionstatus,
+        $completion,
+        $fastmodinfo,
+        $modules = []
+    ) {
 
         if (empty($modules)) {
             return false;
@@ -274,8 +322,14 @@ class conditionform extends \mod_pulse\automation\condition_base {
      * @param \course_modinfo $fastmodinfo Fast modinfo object.
      * @return bool True if criteria met, false otherwise.
      */
-    protected function check_selected_activities_completion($modules, $userid, $activityoperator, $completionstatus,
-        $completion, $fastmodinfo) {
+    protected function check_selected_activities_completion(
+        $modules,
+        $userid,
+        $activityoperator,
+        $completionstatus,
+        $completion,
+        $fastmodinfo
+    ) {
 
         $completedcount = 0;
 
@@ -366,7 +420,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
         return in_array($completiondata->completionstate, [
             COMPLETION_COMPLETE,
             COMPLETION_COMPLETE_PASS,
-            COMPLETION_COMPLETE_FAIL
+            COMPLETION_COMPLETE_FAIL,
         ]);
     }
 
@@ -399,18 +453,22 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $requirespassgrade = !empty($cm->completionpassgrade);
 
         if ($requirespassgrade) {
-            if (in_array($completiondata->completionstate, [
+            if (
+                in_array($completiondata->completionstate, [
                 COMPLETION_COMPLETE,
                 COMPLETION_COMPLETE_PASS,
                 COMPLETION_COMPLETE_FAIL,
-            ])) {
+                ])
+            ) {
                 return false;
             }
         } else {
-            if (in_array($completiondata->completionstate, [
+            if (
+                in_array($completiondata->completionstate, [
                 COMPLETION_COMPLETE,
                 COMPLETION_COMPLETE_PASS,
-            ])) {
+                ])
+            ) {
                 return false;
             }
         }

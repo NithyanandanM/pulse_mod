@@ -27,7 +27,7 @@ namespace mod_pulse;
 /**
  * Pulse resource phpunit test cases defined.
  */
-class lib_test extends \advanced_testcase {
+final class lib_test extends \advanced_testcase {
     /**
      * Course instance data
      *

@@ -157,7 +157,6 @@ class extendpro {
                 if (is_subclass_of($classpath, \mod_pulse\addon\base::class) && method_exists($classpath, $method)) {
                     $results[$fullclassname] = $classpath::$method(...$args);
                 }
-
             } catch (\Exception $e) {
                 // Ignore exceptions from individual plugins.
                 debugging('Exception in pulse extend general method: ' . $e->getMessage(), DEBUG_DEVELOPER);
