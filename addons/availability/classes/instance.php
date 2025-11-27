@@ -95,6 +95,9 @@ class instance extends \mod_pulse\addon\base {
 
     /**
      * Delete availability records for this pulse instance.
+     * @param int $userid
+     * @param \stdClass $course
+     * @param \stdClass $config
      *
      * @return void
      */

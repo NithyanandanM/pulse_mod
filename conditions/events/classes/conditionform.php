@@ -676,7 +676,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
     /**
      * Get the default events list.
-     *
+     * @param array $events
      * @return array
      */
     public static function get_default_events($events = []) {
