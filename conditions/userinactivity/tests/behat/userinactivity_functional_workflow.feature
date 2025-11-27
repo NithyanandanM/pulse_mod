@@ -256,8 +256,6 @@ Feature: User inactivity trigger condition - Functional workflow tests
       | Full name      | Subject                      |
       | Student User 2 | Completion Criteria Reminder |
     And I close all opened windows
-
-
   Scenario: User inactivity with require previous activity
     # Create automation template
     Given I create automation template with the following fields to these values:
