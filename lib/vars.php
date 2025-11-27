@@ -668,7 +668,7 @@ class pulse_email_vars {
                 'Scheduleuser_suspended', 'Scheduleuser_mnethostid', 'Scheduleuser_password',
                 'Scheduleuser_emailstop', 'Scheduleuser_descriptionformat', 'Scheduleuser_mailformat',
                 'Scheduleuser_maildigest', 'Scheduleuser_maildisplay', 'Scheduleuser_autosubscribe',
-                'Scheduleuser_trackforums',  'Scheduleuser_timemodified', 'Scheduleuser_trustbitmask',
+                'Scheduleuser_trackforums', 'Scheduleuser_timemodified', 'Scheduleuser_trustbitmask',
                 'Scheduleuser_imagealt', 'Scheduleuser_moodlenetprofile',
             ];
             $fields = array_filter($fields, fn($field) => !in_array($field, $removefields));

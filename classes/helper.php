@@ -764,7 +764,7 @@ class helper {
      *
      * @param int $userid User ID.
      * @param object $course Course object.
-     *  @param object $config Recompletion config.
+     * @param object $config Recompletion config.
      */
     public static function local_recompletion_reset($userid, $course, $config) {
         global $DB;

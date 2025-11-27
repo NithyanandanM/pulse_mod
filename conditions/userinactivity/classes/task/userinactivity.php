@@ -26,13 +26,10 @@ namespace pulsecondition_userinactivity\task;
 
 use pulseaction_notification\notification;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Scheduled task to check for user inactivity and trigger automation conditions.
  */
 class userinactivity extends \core\task\scheduled_task {
-
     /**
      * Get the name of this task.
      *
@@ -114,19 +111,14 @@ class userinactivity extends \core\task\scheduled_task {
 
             foreach ($enrolledusers as $user) {
                 if ($conditionform->is_user_completed($instancedata, $user->id)) {
-                    // Check if we haven't already triggered for this user.
-                    //if (!$this->has_already_triggered($instance->id, $user->id)) {
-                        // Trigger the automation actions.
-                        $conditionform->trigger_instance($instance->id, $user->id);
-                        //$this->mark_as_triggered($instance->id, $user->id);
-                        $triggeredcount++;
-                        mtrace("Triggered automation for user {$user->username} (ID: {$user->id})");
-                    //}
+                    // Trigger the automation actions.
+                    $conditionform->trigger_instance($instance->id, $user->id);
+                    $triggeredcount++;
+                    mtrace("Triggered automation for user {$user->username} (ID: {$user->id})");
                 }
             }
 
             mtrace("Triggered automation for {$triggeredcount} users in instance {$instance->id}");
-
         } catch (\Exception $e) {
             mtrace('Error processing user inactivity instance ' . $instance->id . ': ' . $e->getMessage());
         }
@@ -148,7 +140,12 @@ class userinactivity extends \core\task\scheduled_task {
                 WHERE instanceid = :instanceid
                 AND userid = :userid
                 AND status IN (:statussent, :statusqueued)";
-        $condition = ['instanceid' => $id, 'userid' => $userid, 'statussent' => notification::STATUS_SENT, 'statusqueued' => notification::STATUS_QUEUED];
+        $condition = [
+            'instanceid' => $id,
+            'userid' => $userid,
+            'statussent' => notification::STATUS_SENT,
+            'statusqueued' => notification::STATUS_QUEUED,
+        ];
         if ($records = $DB->get_records_sql($sql, $condition)) {
             $record = reset($records);
             return $record->notifiedtime != null ? true : false;

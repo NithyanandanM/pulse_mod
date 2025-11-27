@@ -50,8 +50,9 @@ $string['Training_vars'] = "Training";
 $string['Training_vars_help'] = "Training information vars";
 $string['User_vars'] = 'User Profile';
 $string['User_vars_help'] = 'User Profile placeholders';
-$string['actiontriggererror'] = 'Action trigger issue - {$a}';
 $string['actions'] = 'Actions';
+$string['actionstoresaveerror'] = 'Error saving action settings';
+$string['actiontriggererror'] = 'Action trigger issue - {$a}';
 $string['addinstance'] = 'Add Instance';
 $string['addtemplatebtn'] = 'Add automation instance';
 $string['after'] = 'After';
@@ -469,5 +470,3 @@ $string['weekly'] = 'Weekly';
 $string['weeks'] = 'Weeks';
 $string['withselect'] = 'With selection:';
 $string['yearly'] = 'Yearly';
-
-$string['actionstoresaveerror'] = 'Error saving action settings';

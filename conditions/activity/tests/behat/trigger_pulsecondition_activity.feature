@@ -25,8 +25,6 @@ Feature: Activity trigger event.
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
       | student1 | C1     | student        |
-
-
     And I log in as "admin"
     And I am on "Course 1" course homepage
     And I navigate to "Settings" in current page administration

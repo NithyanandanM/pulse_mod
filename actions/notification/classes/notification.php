@@ -677,7 +677,6 @@ class notification {
             }
         }
 
-
         // Create a scheduels for user context level users, for the student users.
         foreach ($coursecontextusers as $userid => $user) {
             // Create schedule for each relative user.
@@ -998,10 +997,6 @@ class notification {
         $conditions = $this->instancedata->condition ?? [];
 
         foreach ($conditions as $conditionname => $conditiondata) {
-            // if (!pulsecondition::is_condition_available($conditionname)) {
-            //     continue;
-            // }
-
             $conditionclass = "\\pulsecondition_{$conditionname}\\conditionform";
             if (!class_exists($conditionclass)) {
                 continue;

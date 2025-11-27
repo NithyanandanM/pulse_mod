@@ -321,11 +321,13 @@ class schedule {
         $coursedateswhere = 'c.startdate <= :startdate AND (c.enddate = 0 OR c.enddate >= :enddate)';
         $plugins = \mod_pulse\plugininfo\pulsecondition::instance()->get_plugins_base();
         foreach ($plugins as $component => $pluginbase) {
-
             $conditionclass = "\\pulsecondition_{$component}\\conditionform";
             if (class_exists($conditionclass)) {
                 $condition = new $conditionclass();
-                if (method_exists($condition, 'schedule_override_coursedates') && $condition::schedule_override_coursedates() != '') {
+                if (
+                    method_exists($condition, 'schedule_override_coursedates') &&
+                    $condition::schedule_override_coursedates() != ''
+                ) {
                     $coursedateswhere = $condition::schedule_override_coursedates();
                 }
             }

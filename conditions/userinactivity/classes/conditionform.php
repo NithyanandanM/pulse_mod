@@ -30,7 +30,6 @@ use mod_pulse\automation\condition_base;
  * Automation condition form for user inactivity.
  */
 class conditionform extends \mod_pulse\automation\condition_base {
-
     /**
      * Condition disabled.
      */
@@ -63,21 +62,23 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
 
      /**
-     * Verify if the course start or end date has been reached.
-     *
-     * @param object $instancedata The instance data.
-     * @param int $userid The user ID.
-     * @param \completion_info|null $completion The completion information.
-     * @return bool True if condition is met, false otherwise.
-     */
+      * Verify if the course start or end date has been reached.
+      *
+      * @param object $instancedata The instance data.
+      * @param int $userid The user ID.
+      * @param \completion_info|null $completion The completion information.
+      * @return bool True if condition is met, false otherwise.
+      */
     public function is_user_completed($instancedata, int $userid, ?\completion_info $completion = null) {
         global $DB;
         $courseid = $instancedata->courseid;
         $course = get_course($courseid);
 
         $triggercondition = $instancedata->condition['userinactivity'];
-        if (!isset($triggercondition['type']) ||
-            $triggercondition['type'] == self::DISABLED) {
+        if (
+            !isset($triggercondition['type']) ||
+            $triggercondition['type'] == self::DISABLED
+        ) {
             return false;
         }
 
@@ -123,7 +124,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
      * @param object $forminstance The form instance.
      */
     public function load_instance_form(&$mform, $forminstance) {
-       $this->load_form($mform, $forminstance);
+        $this->load_form($mform, $forminstance);
     }
 
     /**
@@ -136,7 +137,12 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $this->load_form($mform, $forminstance);
     }
 
-
+    /**
+     * Load the form elements for user inactivity condition.
+     *
+     * @param MoodleQuickForm $mform The form instance
+     * @param stdClass $forminstance The form instance data
+     */
     public function load_form(&$mform, $forminstance) {
         global $CFG;
          // Register custom duration form element.
@@ -146,7 +152,6 @@ class conditionform extends \mod_pulse\automation\condition_base {
             'moodlequickform_pulseconditionduration'
         );
 
-
         $mform->addElement('select', 'condition[userinactivity][status]', get_string('status', 'pulse'), $this->get_options());
         $mform->addHelpButton('condition[userinactivity][status]', 'userinactivity', 'pulsecondition_userinactivity');
 
@@ -155,7 +160,6 @@ class conditionform extends \mod_pulse\automation\condition_base {
             self::DISABLED => get_string('disabled', 'pulsecondition_userinactivity'),
             self::INACTIVITY_ACCESS => get_string('basedonaccess', 'pulsecondition_userinactivity'),
             self::INACTIVITY_COMPLETION => get_string('basedoncompletion', 'pulsecondition_userinactivity'),
-            /* self::INACTIVITY_COMPLETION_CONDITIONS => get_string('basedoncompletionconditions', 'pulsecondition_userinactivity'), */
         ];
 
         $mform->addElement(
@@ -166,7 +170,6 @@ class conditionform extends \mod_pulse\automation\condition_base {
         );
         $mform->addHelpButton('condition[userinactivity][type]', 'userinactivity', 'pulsecondition_userinactivity');
         $mform->hideIf('condition[userinactivity][type]', 'condition[userinactivity][status]', 'eq', self::DISABLED);
-
 
         // Included activities.
         $activityoptions = [
@@ -180,10 +183,19 @@ class conditionform extends \mod_pulse\automation\condition_base {
             get_string('includedactivities', 'pulsecondition_userinactivity'),
             $activityoptions
         );
-        $mform->addHelpButton('condition[userinactivity][includedactivities]', 'includedactivities', 'pulsecondition_userinactivity');
+        $mform->addHelpButton(
+            'condition[userinactivity][includedactivities]',
+            'includedactivities',
+            'pulsecondition_userinactivity'
+        );
         $mform->hideIf('condition[userinactivity][includedactivities]', 'condition[userinactivity][status]', 'eq', self::DISABLED);
         $mform->hideIf('condition[userinactivity][includedactivities]', 'condition[userinactivity][type]', 'eq', self::DISABLED);
-        $mform->hideIf('condition[userinactivity][includedactivities]', 'condition[userinactivity][type]', 'eq', self::INACTIVITY_ACCESS);
+        $mform->hideIf(
+            'condition[userinactivity][includedactivities]',
+            'condition[userinactivity][type]',
+            'eq',
+            self::INACTIVITY_ACCESS
+        );
 
         // Inactivity period.
         $mform->addElement(
@@ -200,11 +212,27 @@ class conditionform extends \mod_pulse\automation\condition_base {
             'selectyesno',
             'condition[userinactivity][requirepreviousactivity]',
             get_string('requirepreviousactivity', 'pulsecondition_userinactivity'),
-            null, null, [0, 1]
+            null,
+            null,
+            [0, 1]
         );
-        $mform->addHelpButton('condition[userinactivity][requirepreviousactivity]', 'requirepreviousactivity', 'pulsecondition_userinactivity');
-        $mform->hideIf('condition[userinactivity][requirepreviousactivity]', 'condition[userinactivity][status]', 'eq', self::DISABLED);
-        $mform->hideIf('condition[userinactivity][requirepreviousactivity]', 'condition[userinactivity][type]', 'eq', self::DISABLED);
+        $mform->addHelpButton(
+            'condition[userinactivity][requirepreviousactivity]',
+            'requirepreviousactivity',
+            'pulsecondition_userinactivity'
+        );
+        $mform->hideIf(
+            'condition[userinactivity][requirepreviousactivity]',
+            'condition[userinactivity][status]',
+            'eq',
+            self::DISABLED
+        );
+        $mform->hideIf(
+            'condition[userinactivity][requirepreviousactivity]',
+            'condition[userinactivity][type]',
+            'eq',
+            self::DISABLED
+        );
 
         // Activity period.
         $mform->addElement(
@@ -216,7 +244,6 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $mform->hideIf('condition[userinactivity][activityperiod]', 'condition[userinactivity][requirepreviousactivity]', 'eq', 0);
         $mform->hideIf('condition[userinactivity][activityperiod]', 'condition[userinactivity][status]', 'eq', self::DISABLED);
         $mform->hideIf('condition[userinactivity][activityperiod]', 'condition[userinactivity][type]', 'eq', self::DISABLED);
-
     }
 
 
@@ -233,16 +260,13 @@ class conditionform extends \mod_pulse\automation\condition_base {
      */
     protected function has_user_activity($userid, $course, $type, $includedactivities, $fromtime, $totime) {
         global $DB;
-        //mtrace("Checking user activity for user $userid in course {$course->id}");
+
         switch ($type) {
             case self::INACTIVITY_ACCESS:
                 return $this->has_course_access($userid, $course->id, $fromtime, $totime);
 
             case self::INACTIVITY_COMPLETION:
                 return $this->has_activity_completion($userid, $course, $includedactivities, $fromtime, $totime);
-
-            /* case self::INACTIVITY_COMPLETION_CONDITIONS:
-                return $this->has_completion_conditions_met($userid, $course, $includedactivities, $fromtime, $totime); */
         }
 
         return false;
@@ -259,9 +283,8 @@ class conditionform extends \mod_pulse\automation\condition_base {
      */
     protected function has_course_access($userid, $courseid, $fromtime, $totime) {
         global $DB;
-        //mtrace("Checking course access for user $userid in course $courseid");
 
-        // Check when the user was enrolled in the course
+        // Check when the user was enrolled in the course.
         $sql = "SELECT MIN(ue.timecreated) as enrolltime
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON e.id = ue.enrolid
@@ -271,21 +294,21 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $params = [
             'userid' => $userid,
             'courseid' => $courseid,
-            'active' => ENROL_USER_ACTIVE
+            'active' => ENROL_USER_ACTIVE,
         ];
 
         $enrolment = $DB->get_record_sql($sql, $params);
 
         // If user was enrolled after the fromtime threshold, they haven't been enrolled long enough
-        // to be considered inactive yet
+        // to be considered inactive yet.
         if ($enrolment && $enrolment->enrolltime > $fromtime) {
-            return true; // Consider them as "active" (not eligible for inactivity trigger yet)
+            return true; // Consider them as "active" (not eligible for inactivity trigger yet).
         }
 
         // Check in user last access table.
         $lastaccess = $DB->get_field('user_lastaccess', 'timeaccess', [
             'userid' => $userid,
-            'courseid' => $courseid
+            'courseid' => $courseid,
         ]);
 
         if ($lastaccess && $lastaccess >= $fromtime && $lastaccess <= $totime) {
@@ -298,11 +321,11 @@ class conditionform extends \mod_pulse\automation\condition_base {
                 'userid' => $userid,
                 'courseid' => $courseid,
                 'fromtime' => $fromtime,
-                'totime' => $totime
+                'totime' => $totime,
             ];
 
             $sql = "SELECT COUNT(id) FROM {logstore_standard_log}
-                    WHERE userid = :userid AND courseid = :courseid 
+                    WHERE userid = :userid AND courseid = :courseid
                     AND timecreated >= :fromtime AND timecreated <= :totime";
 
             return $DB->count_records_sql($sql, $params) > 0;
@@ -323,7 +346,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
      */
     protected function has_activity_completion($userid, $course, $includedactivities, $fromtime, $totime) {
         global $DB;
-        //mtrace("Checking activity completion for user $userid in course {$course->id}");
+
         $completion = new \completion_info($course);
         if (!$completion->is_enabled()) {
             return true;
@@ -340,7 +363,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $params = array_merge([
             'userid' => $userid,
             'fromtime' => $fromtime,
-            'totime' => $totime
+            'totime' => $totime,
         ], $inparams);
 
         $sql = "SELECT COUNT(id) FROM {course_modules_completion}
@@ -375,7 +398,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
                 $criteriarecord = $DB->get_record('course_completion_criteria', [
                     'course' => $course->id,
                     'moduleinstance' => $cm->id,
-                    'criteriatype' => COMPLETION_CRITERIA_TYPE_ACTIVITY
+                    'criteriatype' => COMPLETION_CRITERIA_TYPE_ACTIVITY,
                 ]);
                 if ($criteriarecord) {
                     $record = $DB->get_record('course_completion_crit_compl', [
@@ -383,23 +406,16 @@ class conditionform extends \mod_pulse\automation\condition_base {
                         'userid' => $userid,
                         'course' => $course->id,
                     ]);
-                    if ($record &&
+                    if (
+                        $record &&
                         $record->timecompleted >= $fromtime &&
-                        $record->timecompleted <= $totime) {
+                        $record->timecompleted <= $totime
+                    ) {
                         return true;
                     }
                 }
             } else {
                 return false;
-                /* foreach ($completiondata->get_details() as $key => $detail) {
-                    $statuscomplete = in_array($detail->status, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS]);
-                    if ($statuscomplete) {
-                        // Check if the action for this condition happened in the specified time period
-                        //if ($this->check_condition_activity_in_logs($userid, $course->id, $cm->id, $key, $fromtime, $totime)) {
-                            //return true;
-                        //}
-                    }
-                } */
             }
         }
 
@@ -426,25 +442,25 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
             $params = [
                 'courseid' => $course->id,
-                'criteriatype' => COMPLETION_CRITERIA_TYPE_ACTIVITY
+                'criteriatype' => COMPLETION_CRITERIA_TYPE_ACTIVITY,
             ];
 
             $completioncriteria = $DB->get_records_sql($sql, $params);
 
-            // Create a lookup array for faster checking
+            // Create a lookup array for faster checking.
             $criteriaactivities = [];
             foreach ($completioncriteria as $criteria) {
                 $criteriaactivities[$criteria->moduleinstance] = true;
             }
 
-            // Filter activities to only include those that are part of course completion
-            $activities = array_filter($activities, function($cm) use ($criteriaactivities, $completion) {
-                // Check if completion is enabled for this activity
+            // Filter activities to only include those that are part of course completion.
+            $activities = array_filter($activities, function ($cm) use ($criteriaactivities, $completion) {
+                // Check if completion is enabled for this activity.
                 if (!$completion->is_enabled($cm) || $cm->completion <= 0) {
                     return false;
                 }
 
-                // Check if this activity is in the course completion criteria
+                // Check if this activity is in the course completion criteria.
                 return isset($criteriaactivities[$cm->id]);
             });
         }
