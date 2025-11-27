@@ -42,7 +42,7 @@ if ($hassiteconfig) {
     $title = get_string('recipientsdefaultlastname', 'pulseaction_notification');
     $description = get_string('recipientsdefaultlastname_desc', 'pulseaction_notification');
     $default = 'Service Account';
-    
+
     $settings->add(new admin_setting_configtext(
         $name,
         $title,

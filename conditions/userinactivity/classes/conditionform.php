@@ -63,13 +63,13 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
 
      /**
-     * Verify if the course start or end date has been reached.
-     *
-     * @param object $instancedata The instance data.
-     * @param int $userid The user ID.
-     * @param \completion_info|null $completion The completion information.
-     * @return bool True if condition is met, false otherwise.
-     */
+      * Verify if the course start or end date has been reached.
+      *
+      * @param object $instancedata The instance data.
+      * @param int $userid The user ID.
+      * @param \completion_info|null $completion The completion information.
+      * @return bool True if condition is met, false otherwise.
+      */
     public function is_user_completed($instancedata, int $userid, ?\completion_info $completion = null) {
         global $DB;
         $courseid = $instancedata->courseid;
@@ -123,7 +123,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
      * @param object $forminstance The form instance.
      */
     public function load_instance_form(&$mform, $forminstance) {
-       $this->load_form($mform, $forminstance);
+        $this->load_form($mform, $forminstance);
     }
 
     /**
@@ -146,7 +146,6 @@ class conditionform extends \mod_pulse\automation\condition_base {
             'moodlequickform_pulseconditionduration'
         );
 
-
         $mform->addElement('select', 'condition[userinactivity][status]', get_string('status', 'pulse'), $this->get_options());
         $mform->addHelpButton('condition[userinactivity][status]', 'userinactivity', 'pulsecondition_userinactivity');
 
@@ -166,7 +165,6 @@ class conditionform extends \mod_pulse\automation\condition_base {
         );
         $mform->addHelpButton('condition[userinactivity][type]', 'userinactivity', 'pulsecondition_userinactivity');
         $mform->hideIf('condition[userinactivity][type]', 'condition[userinactivity][status]', 'eq', self::DISABLED);
-
 
         // Included activities.
         $activityoptions = [
@@ -233,7 +231,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
      */
     protected function has_user_activity($userid, $course, $type, $includedactivities, $fromtime, $totime) {
         global $DB;
-        //mtrace("Checking user activity for user $userid in course {$course->id}");
+        // mtrace("Checking user activity for user $userid in course {$course->id}");
         switch ($type) {
             case self::INACTIVITY_ACCESS:
                 return $this->has_course_access($userid, $course->id, $fromtime, $totime);
@@ -259,7 +257,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
      */
     protected function has_course_access($userid, $courseid, $fromtime, $totime) {
         global $DB;
-        //mtrace("Checking course access for user $userid in course $courseid");
+        // mtrace("Checking course access for user $userid in course $courseid");
 
         // Check when the user was enrolled in the course
         $sql = "SELECT MIN(ue.timecreated) as enrolltime
@@ -323,7 +321,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
      */
     protected function has_activity_completion($userid, $course, $includedactivities, $fromtime, $totime) {
         global $DB;
-        //mtrace("Checking activity completion for user $userid in course {$course->id}");
+        // mtrace("Checking activity completion for user $userid in course {$course->id}");
         $completion = new \completion_info($course);
         if (!$completion->is_enabled()) {
             return true;

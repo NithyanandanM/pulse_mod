@@ -115,13 +115,13 @@ class userinactivity extends \core\task\scheduled_task {
             foreach ($enrolledusers as $user) {
                 if ($conditionform->is_user_completed($instancedata, $user->id)) {
                     // Check if we haven't already triggered for this user.
-                    //if (!$this->has_already_triggered($instance->id, $user->id)) {
+                    // if (!$this->has_already_triggered($instance->id, $user->id)) {
                         // Trigger the automation actions.
                         $conditionform->trigger_instance($instance->id, $user->id);
-                        //$this->mark_as_triggered($instance->id, $user->id);
+                        // $this->mark_as_triggered($instance->id, $user->id);
                         $triggeredcount++;
                         mtrace("Triggered automation for user {$user->username} (ID: {$user->id})");
-                    //}
+                    // }
                 }
             }
 

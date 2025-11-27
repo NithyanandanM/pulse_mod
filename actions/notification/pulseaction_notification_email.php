@@ -589,6 +589,5 @@ class pulseaction_notification_email extends message_output_email {
             return false;
         }
 
-
     }
 }

@@ -173,7 +173,7 @@ class restore_pulse_course_structure_step extends restore_activity_structure_ste
             foreach ($oldinstances as $ins) {
                 $additional = $ins->additional ? json_decode($ins->additional, true) : [];
                 $needsupdate = false;
-                
+
                 // Handle modules
                 if (isset($additional['modules']) && !empty($additional['modules'])) {
                     if (!is_array($additional['modules'])) {

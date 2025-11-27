@@ -78,7 +78,6 @@ class conditionform extends condition_base {
         );
         $mform->addHelpButton('condition[coursegroup][type]', 'type', 'pulsecondition_coursegroup');
 
-
         // Course groups.
         $groups = $DB->get_records_menu('groups', ['courseid' => $courseid], '', 'id, name');
         $groups = !empty($groups) ? $groups : [0 => get_string('nogroups', 'pulsecondition_coursegroup')];
@@ -117,7 +116,6 @@ class conditionform extends condition_base {
         $mform->hideIf('condition[coursegroup][groups]', 'condition[coursegroup][status]', 'eq', self::DISABLED);
         $mform->hideIf('condition[coursegroup][groupings]', 'condition[coursegroup][status]', 'eq', self::DISABLED);
 
-
         $mform->addElement('hidden', 'override[condition_coursegroup]', 1);
         $mform->setType('override[condition_coursegroup]', PARAM_RAW);
     }
@@ -129,7 +127,6 @@ class conditionform extends condition_base {
      * @param object $forminstance The form instance.
      */
     public function load_template_form(&$mform, $forminstance) {
-
 
         $groupstr = get_string('coursegroup', 'pulsecondition_coursegroup');
         $mform->addElement(
@@ -174,7 +171,7 @@ class conditionform extends condition_base {
             return true;
         }
 
-        //Course group.
+        // Course group.
         $type = $instancedata->condition['coursegroup']['type'] ?? '';
         $courseid = $instancedata->courseid ?? 0;
         if (empty($courseid)) {
@@ -196,7 +193,7 @@ class conditionform extends condition_base {
             case 'anygroup':
                 return !empty($usergroups);
 
-            //Select groups.
+            // Select groups.
             case 'selectedgroups':
                 $selected = $instancedata->condition['coursegroup']['groups'] ?? [];
                 $coursegroups = $DB->get_records('groups', ['courseid' => $courseid]);
@@ -209,7 +206,7 @@ class conditionform extends condition_base {
                     }
                 }
                 return false;
-            //Groupings.
+            // Groupings.
             case 'selectedgroupings':
 
                 $selectedgroupings = $instancedata->condition['coursegroup']['groupings'] ?? [];
@@ -235,7 +232,7 @@ class conditionform extends condition_base {
 
             default:
                 return true;
-            }
+        }
     }
 
     /**
