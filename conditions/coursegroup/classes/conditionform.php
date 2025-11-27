@@ -165,7 +165,7 @@ class conditionform extends condition_base {
     public function is_user_completed($instancedata, $userid, ?\completion_info $completion = null) {
         global $DB;
 
-        // check if condition disabled.
+        // Check if condition disabled.
         if (
             !isset($instancedata->condition['coursegroup']['status']) ||
             $instancedata->condition['coursegroup']['status'] == self::DISABLED
@@ -246,7 +246,7 @@ class conditionform extends condition_base {
     protected static function get_affected_instances($groupid, $courseid) {
         global $DB;
 
-        // Get all instances that use coursegroup condition in this course
+        // Get all instances that use coursegroup condition in this course.
         $sql = "SELECT DISTINCT ai.id AS instanceid, co.additional, co.triggercondition, pco.additional AS templateadditional
                   FROM {pulse_autoinstances} ai
                   JOIN {pulse_autotemplates} pat ON pat.id = ai.templateid
@@ -272,7 +272,7 @@ class conditionform extends condition_base {
 
             // Merge the template additional with instance additional.
             $instance->additional = array_merge($instance->templateadditional, $instance->additional);
-            // Check if this instance is affected by the group change
+            // Check if this instance is affected by the group change.
             if (self::is_instance_affected_by_group($instance, $groupid)) {
                 $affectedinstances[] = $instance->instanceid;
             }
@@ -291,7 +291,7 @@ class conditionform extends condition_base {
     protected static function is_instance_affected_by_group($instance, $groupid) {
         global $DB;
 
-        // If no coursegroup configuration, not affected
+        // If no coursegroup configuration, not affected.
         if ($instance->triggercondition != 'coursegroup') {
             return false;
         }
@@ -302,7 +302,7 @@ class conditionform extends condition_base {
         switch ($type) {
             case 'nogroup':
             case 'anygroup':
-                // These types are affected by any group membership change
+                // These types are affected by any group membership change.
                 return true;
 
             case 'selectedgroups':
@@ -315,7 +315,7 @@ class conditionform extends condition_base {
                     return false;
                 }
 
-                // Check if the group belongs to any of the selected groupings
+                // Check if the group belongs to any of the selected groupings.
                 [$insql, $params] = $DB->get_in_or_equal($selectedgroupings, SQL_PARAMS_NAMED);
                 $sql = "SELECT COUNT(*)
                           FROM {groupings_groups}
@@ -335,7 +335,6 @@ class conditionform extends condition_base {
      * @param \core\event\group_member_added $eventdata
      */
     public static function member_added($eventdata) {
-        // exit;
         $data = $eventdata->get_data();
         $groupid = $data['objectid'];
         $userid = $data['relateduserid'];
@@ -358,8 +357,8 @@ class conditionform extends condition_base {
      * @param \core\event\group_member_removed $eventdata
      */
     public static function member_removed($eventdata) {
-        // For group removals, we also need to check and potentially trigger
-        // This is important for "nogroup" type conditions
+        // For group removals, we also need to check and potentially trigger.
+        // This is important for "nogroup" type conditions.
         return self::member_added($eventdata);
     }
 }

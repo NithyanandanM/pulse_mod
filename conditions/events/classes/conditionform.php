@@ -166,7 +166,12 @@ class conditionform extends \mod_pulse\automation\condition_base {
             self::EVENTSCONTEXT_EVERYWHERE => get_string('eventscontextseverywhere', 'pulsecondition_events'),
             self::EVENTSCONTEXT_SELECTED => get_string('eventscontextsmoduleonly', 'pulsecondition_events'),
         ];
-        $mform->addElement('select', 'condition[events][eventscontext]', get_string('eventscontexts', 'pulsecondition_events'), $option);
+        $mform->addElement(
+            'select',
+            'condition[events][eventscontext]',
+            get_string('eventscontexts', 'pulsecondition_events'),
+            $option
+        );
         $mform->hideIf('condition[events][eventscontext]', 'condition[events][status]', 'eq', self::DISABLED);
         $mform->addHelpButton('condition[events][eventscontext]', 'eventscontexts', 'pulsecondition_events');
     }
@@ -362,7 +367,8 @@ class conditionform extends \mod_pulse\automation\condition_base {
                 continue;
             }
 
-            // Events context configured for everywhere, but the event is not in this course or its context, continue to next instance.
+            // Events context configured for everywhere, but the event is not in this course
+            // or its context, continue to next instance.
             if (
                 (!property_exists($additional, 'modules') || !$additional->modules)
                 && $contextconfigured === self::EVENTSCONTEXT_EVERYWHERE

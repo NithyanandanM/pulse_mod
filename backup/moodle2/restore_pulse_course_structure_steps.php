@@ -174,7 +174,7 @@ class restore_pulse_course_structure_step extends restore_activity_structure_ste
                 $additional = $ins->additional ? json_decode($ins->additional, true) : [];
                 $needsupdate = false;
 
-                // Handle modules
+                // Handle modules.
                 if (isset($additional['modules']) && !empty($additional['modules'])) {
                     if (!is_array($additional['modules'])) {
                         $additional['modules'] = [$additional['modules']];
@@ -190,7 +190,7 @@ class restore_pulse_course_structure_step extends restore_activity_structure_ste
                     $needsupdate = true;
                 }
 
-                // Handle groups
+                // Handle groups.
                 if (isset($additional['groups']) && !empty($additional['groups'])) {
                     if (!is_array($additional['groups'])) {
                         $additional['groups'] = [$additional['groups']];
@@ -203,7 +203,7 @@ class restore_pulse_course_structure_step extends restore_activity_structure_ste
                     $needsupdate = true;
                 }
 
-                // Handle groupings
+                // Handle groupings.
                 if (isset($additional['groupings']) && !empty($additional['groupings'])) {
                     if (!is_array($additional['groupings'])) {
                         $additional['groupings'] = [$additional['groupings']];

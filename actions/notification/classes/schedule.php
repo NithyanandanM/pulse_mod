@@ -324,7 +324,10 @@ class schedule {
             $conditionclass = "\\pulsecondition_{$component}\\conditionform";
             if (class_exists($conditionclass)) {
                 $condition = new $conditionclass();
-                if (method_exists($condition, 'schedule_override_coursedates') && $condition::schedule_override_coursedates() != '') {
+                if (
+                    method_exists($condition, 'schedule_override_coursedates') &&
+                    $condition::schedule_override_coursedates() != ''
+                ) {
                     $coursedateswhere = $condition::schedule_override_coursedates();
                 }
             }

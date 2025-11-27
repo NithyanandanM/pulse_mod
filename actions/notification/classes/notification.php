@@ -997,10 +997,6 @@ class notification {
         $conditions = $this->instancedata->condition ?? [];
 
         foreach ($conditions as $conditionname => $conditiondata) {
-            // if (!pulsecondition::is_condition_available($conditionname)) {
-            // continue;
-            // }
-
             $conditionclass = "\\pulsecondition_{$conditionname}\\conditionform";
             if (!class_exists($conditionclass)) {
                 continue;

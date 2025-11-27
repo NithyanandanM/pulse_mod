@@ -38,6 +38,11 @@ class moodlequickform_pulseconditionduration extends MoodleQuickForm_duration {
      */
     protected $units = null;
 
+    /**
+     * Get the units for this duration element.
+     *
+     * @return array Array of time units
+     */
     public function get_units() {
         if (is_null($this->units)) {
             $this->units = [
