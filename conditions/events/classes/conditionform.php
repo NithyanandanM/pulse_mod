@@ -278,27 +278,27 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
         // Module configured.
         if (!empty($eventdata['modules'])) {
-            $sql .= " AND contextinstanceid = :module";
+            $sql .= " AND contextinstanceid = :module ";
             $params['module'] = is_array($eventdata['modules']) ? current($eventdata['modules']) : $eventdata['modules'];
         }
 
         // Event context everywhere, means any events in the context of instance course or other context in the course.
         if ($contextconfigured === self::EVENTSCONTEXT_EVERYWHERE) {
-            $sql .= " AND (contextinstanceid = :coursecontextid OR courseid = :courseid)";
+            $sql .= " AND (contextinstanceid = :coursecontextid OR courseid = :courseid) ";
             $params['coursecontextid'] = context_course::instance($instancedata->courseid)->id;
             $params['courseid'] = $instancedata->courseid;
         }
 
         // Module not configured. then event should be core or the course id of the event is same as instance courseid.
         if (empty($eventdata['modules']) && $contextconfigured === self::EVENTSCONTEXT_NONE) {
-            $sql .= " AND (component = :core OR courseid = :courseid)";
+            $sql .= " AND (component = :core OR courseid = :courseid) ";
             $params['courseid'] = $instancedata->courseid;
             $params['core'] = 'core';
         }
 
         // Upcoming condition check.
         if (!empty($eventdata['upcomingtime'])) {
-            $sql .= 'AND timecreated >= :upcomingtime';
+            $sql .= ' AND timecreated >= :upcomingtime ';
             $params['upcomingtime'] = $eventdata['upcomingtime'];
         }
 
@@ -361,8 +361,8 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
             // Module configured for this instance event, and the event is not for this module, continue to next instance.
             if (
-                property_exists($additional, 'modules') && $additional->modules &&
-                $additional->modules !== $data['contextinstanceid'] || $contextconfigured !== self::EVENTSCONTEXT_SELECTED
+                property_exists($additional, 'modules') && ((int) $additional->modules) > 0 &&
+                (int) $additional->modules !== $data['contextinstanceid'] && $data['contextlevel'] == CONTEXT_MODULE && $contextconfigured == self::EVENTSCONTEXT_SELECTED
             ) {
                 continue;
             }
@@ -397,7 +397,6 @@ class conditionform extends \mod_pulse\automation\condition_base {
             } else if ($notifyuser == self::ALL_USER) {
                 $userid = 0; // All users.
             }
-
             $condition->trigger_instance($instance->instanceid, $userid);
         }
         return true;

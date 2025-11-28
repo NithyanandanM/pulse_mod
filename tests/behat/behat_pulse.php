@@ -373,7 +373,7 @@ class behat_pulse extends behat_base {
         $this->execute("behat_general::i_click_on", ["#id_override_pulse" . $action . "_actionstatus", "css_element"]);
         $this->execute(
             'behat_forms::i_set_the_field_in_container_to',
-            ['Status', '#pulse-action-' . strtolower($action), 'css_element', 'Enabled']
+            ['Status', '#pulse-action-' . strtolower($action), 'css_element', 'Enabled' ]
         );
     }
 
@@ -452,6 +452,7 @@ class behat_pulse extends behat_base {
         // Convert time unit to seconds.
 
         // Calculate new enrollment time.
+
         $newenroltime = strtotime("$offset $unit", time());
 
         // Get user enrolment records for this course.
@@ -462,7 +463,7 @@ class behat_pulse extends behat_base {
 
         $enrolments = $DB->get_records_sql($sql, [
             'userid' => $user->id,
-            'courseid' => $course->id,
+            'courseid' => $course->id
         ]);
 
         if (empty($enrolments)) {
@@ -498,12 +499,14 @@ class behat_pulse extends behat_base {
         // Get course.
         $course = $DB->get_record('course', ['shortname' => $coursename], '*', MUST_EXIST);
 
+
         $lastaccesstime = strtotime("$offset $unit", time());
+
 
         // Check if record exists.
         $lastaccess = $DB->get_record('user_lastaccess', [
             'userid' => $user->id,
-            'courseid' => $course->id,
+            'courseid' => $course->id
         ]);
 
         if ($lastaccess) {
@@ -528,7 +531,7 @@ class behat_pulse extends behat_base {
      * @param string $offset The time offset (positive number for past time).
      * @param string $unit The time unit (minutes, hours, days, or weeks).
      * @param string $username The username.
-     * @param string $activityidnumber The activity idnumber.
+     * @param string $activityname The activity name.
      * @param string $coursename The course name.
      */
     public function i_set_activity_completion_time($offset, $unit, $username, $activityidnumber, $coursename) {
@@ -542,7 +545,7 @@ class behat_pulse extends behat_base {
 
         $cm = $DB->get_record('course_modules', [
             'course' => $course->id,
-            'idnumber' => $activityidnumber,
+            'idnumber' => $activityidnumber
         ]);
 
         if (!$cm) {
@@ -558,7 +561,7 @@ class behat_pulse extends behat_base {
         // Check if completion record exists.
         $completion = $DB->get_record('course_modules_completion', [
             'coursemoduleid' => $cm->id,
-            'userid' => $user->id,
+            'userid' => $user->id
         ]);
 
         if ($completion) {
