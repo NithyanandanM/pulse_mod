@@ -293,5 +293,5 @@ Feature: Event trigger event.
     And I switch to a second window
     And the following should exist in the "reportbuilder-table" table:
       | Course full name | Message type | Subject                       | Full name      | Time created                    | Scheduled time                  | Status |
-      | Course 1         | Template1    | Event completion notification | Teacher User 1 | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | Queued |
+      | Course 1         | Template1    | Event completion notification | Teacher User 1 | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | sent   |
     And I close all opened windows
