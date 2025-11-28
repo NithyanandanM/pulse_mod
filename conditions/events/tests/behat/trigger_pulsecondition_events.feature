@@ -166,7 +166,7 @@ Feature: Event trigger event.
       | Course 1         | Template1    | Event completion notification | student User 1 | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | Queued |
     And I close all opened windows
 
-  Scenario: Event context of event confition - selected activities
+  Scenario: Event context of event condition - selected activities
     And I am on "Course 1" course homepage
     And I navigate to "Automation" in current page administration
     And I wait until the page is ready

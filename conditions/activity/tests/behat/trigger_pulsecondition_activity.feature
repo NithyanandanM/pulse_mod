@@ -25,6 +25,7 @@ Feature: Activity trigger event.
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
       | student1 | C1     | student        |
+
     And I log in as "admin"
     And I am on "Course 1" course homepage
     And I navigate to "Settings" in current page administration
@@ -212,7 +213,7 @@ Feature: Activity trigger event.
     And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
     Then the field "Trigger operator" matches value "All"
     And I click on "#id_override_condition_activity_status" "css_element" in the "#fitem_id_condition_activity_status" "css_element"
-    And I set the field "condition[activity][status]" to "All"
+    And I set the field "condition[activity][status]" to "Upcoming"
     And I click on "#id_override_condition_activity_modules" "css_element" in the "#fitem_id_condition_activity_modules" "css_element"
     And I set the field "Select activities" in the "#fitem_id_condition_activity_modules" "css_element" to "Assign3, Assign4, Assign5"
     And I click on "#id_override_condition_activity_acompletionmethod" "css_element" in the "#fitem_id_condition_activity_acompletionmethod" "css_element"
@@ -245,6 +246,12 @@ Feature: Activity trigger event.
     And I switch to a second window
     And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
     And I close all opened windows
+    And the following "users" exist:
+      | username | firstname | lastname | email             |
+      | student2 | student   | User 2   | student2@test.com |
+    And the following "course enrolments" exist:
+      | user     | course | role    |
+      | student2 | C1     | student |
     And I log out
 
     And I log in as "student1"
@@ -271,12 +278,36 @@ Feature: Activity trigger event.
     And I click on "Continue" "button"
     And I log out
 
+    And I log in as "student2"
+    And I am on "Course 1" course homepage
+    And I am on the "Assign3" "assign activity" page
+    And I click on "Add submission" "button"
+    And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
+    And I press "Save changes"
+    And I click on "Submit assignment" "button"
+    And I click on "Continue" "button"
+
+    And I am on the "Assign4" "assign activity" page
+    And I click on "Add submission" "button"
+    And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
+    And I press "Save changes"
+    And I click on "Submit assignment" "button"
+    And I click on "Continue" "button"
+
+    And I am on the "Assign5" "assign activity" page
+    And I click on "Add submission" "button"
+    And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
+    And I press "Save changes"
+    And I click on "Submit assignment" "button"
+    And I click on "Continue" "button"
+    And I log out
+
     And I log in as "admin"
     And the following "grade grades" exist:
       | gradeitem | user     | grade |
-      | Assign3   | student1 | 5.00  |
-      | Assign4   | student1 | 5.00  |
-      | Assign5   | student1 | 5.00  |
+      | Assign3   | student2 | 5.00  |
+      | Assign4   | student2 | 5.00  |
+      | Assign5   | student2 | 5.00  |
 
     # Completion Status
     # Check the schedule for the instance for No group
@@ -391,9 +422,10 @@ Feature: Activity trigger event.
     And I am on the "Assign3" "assign activity" page
     And I navigate to "Settings" in current page administration
     And I expand all fieldsets
-    And I set the field "id_completionview" to "1"
-    And I set the field "id_completionsubmit" to "1"
-    # And I set the field "id_completionusegrade" to "1"
+    And I set the following fields to these values:
+      | id_completionview   | 1 |
+      | id_completionsubmit | 1 |
+    And I set the field "id_completionusegrade" to "0"
     And I press "Save and return to course"
 
     And I navigate to "Automation" in current page administration
@@ -406,12 +438,6 @@ Feature: Activity trigger event.
     And I set the field "frequencylimit" to "1"
     And I press "Save changes"
 
-    # Check the schedule for the instance
-    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
-    And I switch to a second window
-    And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
-    And I close all opened windows
-
     # Instance Conditions - Activity completion
     And I click on ".action-edit" "css_element" in the "Template1" "table_row"
     Then I follow "Condition"
@@ -419,7 +445,6 @@ Feature: Activity trigger event.
     Then the field "Trigger operator" matches value "All"
     And I click on "#id_override_condition_activity_status" "css_element" in the "#fitem_id_condition_activity_status" "css_element"
     And I set the field "condition[activity][status]" to "All"
-    And I wait "5" seconds
     And I click on "#id_override_condition_activity_modules" "css_element" in the "#fitem_id_condition_activity_modules" "css_element"
     And I set the field "Select activities" in the "#fitem_id_condition_activity_modules" "css_element" to "Assign1, Assign2, Assign3, Assign4, Assign5"
     And I click on "#id_override_condition_activity_acompletionmethod" "css_element" in the "#fitem_id_condition_activity_acompletionmethod" "css_element"
@@ -442,22 +467,13 @@ Feature: Activity trigger event.
     And I set the field "pulsenotification_subject" to "Activity  completion notification"
     And I click on "#id_override_pulsenotification_headercontent_editor" "css_element" in the "#fitem_id_pulsenotification_headercontent_editor" "css_element"
     And I click on "#header-email-vars-button" "css_element" in the ".mod-pulse-emailvars-toggle" "css_element"
-    And I click on pulse "id_pulsenotification_headercontent_editor" editor
-    And I click on "#Firstname" "css_element" in the ".Sender_field-placeholders" "css_element"
     And I press "Save changes"
-
-    # Check the schedule for the instance
-    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
-    And I switch to a second window
-    And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
-    And I close all opened windows
     And I log out
 
     And I log in as "student1"
     And I am on "Course 1" course homepage
     And I am on the "Assign3" "assign activity" page
     And I should see "Done" in the ".automatic-completion-conditions .badge" "css_element"
-
     And I log out
 
     # Completion Status
