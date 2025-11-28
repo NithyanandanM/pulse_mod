@@ -558,7 +558,7 @@ class behat_pulse extends behat_base {
         // Check if completion record exists.
         $completion = $DB->get_record('course_modules_completion', [
             'coursemoduleid' => $cm->id,
-            'userid' => $user->id
+            'userid' => $user->id,
         ]);
 
         if ($completion) {
