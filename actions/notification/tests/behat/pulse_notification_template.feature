@@ -167,5 +167,5 @@ Feature: Configuring the pulseaction_notification plugin on the "Automation temp
 
     Examples:
       | recipient | studentshouldorshouldnot | teachershouldorshouldnot |
-      | Student   | should                   | should not               |
-      | Teacher   | should not               | should                   |
+      | Student               | should                   | should not               |
+      | Non-editing teacher   | should not               | should                   |

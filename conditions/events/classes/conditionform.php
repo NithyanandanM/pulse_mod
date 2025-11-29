@@ -361,8 +361,11 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
             // Module configured for this instance event, and the event is not for this module, continue to next instance.
             if (
-                property_exists($additional, 'modules') && ((int) $additional->modules) > 0 &&
-                (int) $additional->modules !== $data['contextinstanceid'] && $data['contextlevel'] == CONTEXT_MODULE && $contextconfigured == self::EVENTSCONTEXT_SELECTED
+                property_exists($additional, 'modules') 
+                && ((int) $additional->modules) > 0 
+                && (int) $additional->modules !== $data['contextinstanceid'] 
+                && $data['contextlevel'] == CONTEXT_MODULE 
+                && $contextconfigured == self::EVENTSCONTEXT_SELECTED
             ) {
                 continue;
             }
@@ -416,20 +419,28 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $name = stripslashes($eventname);
 
         $like = $DB->sql_like('eve.eventname', ':value'); // Like query to fetch the instances assigned this event.
+        $templatelike = $DB->sql_like('pcn.additional', ':eventname', true, true, false, '');
 
         $sql = "SELECT *, ai.id as id, ai.id as instanceid FROM {pulse_autoinstances} ai
-            JOIN {pulse_autotemplates} pat ON pat.id = ai.templateid
-            LEFT JOIN {pulse_condition_overrides} co ON co.instanceid = ai.id AND co.triggercondition = 'events'
-            LEFT JOIN {pulsecondition_events} eve ON eve.instanceid = ai.id
-            WHERE $like AND (co.status > 0 OR (co.status IS NULL AND ai.templateid IN (
-                    SELECT c.templateid FROM {pulse_condition} c WHERE c.triggercondition = 'events'
-                )
-            ))";
+                  JOIN {pulse_autotemplates} pat ON pat.id = ai.templateid
+                  JOIN {pulse_condition} pcn ON pcn.templateid = ai.templateid AND pcn.triggercondition = 'events'
+             LEFT JOIN {pulse_condition_overrides} co ON co.instanceid = ai.id AND co.triggercondition = 'events'
+             LEFT JOIN {pulsecondition_events} eve ON eve.instanceid = ai.id
+                 WHERE ($like OR $templatelike)
+                   AND (
+                        co.status > 0 OR (
+                            co.status IS NULL AND ai.templateid IN (
+                                SELECT c.templateid FROM {pulse_condition} c WHERE c.triggercondition = 'events'
+                            )
+                        )
+                    )";
 
-        $params = ['events' => '%"events"%', 'value' => $name];
+        $eventnameescaped = str_replace('\\', '\\\\', $eventname);
+        $eventnameescaped = '%"event":"' . $eventnameescaped . '"%';
+
+        $params = ['events' => '%"events"%', 'value' => $name, 'eventname' => $eventnameescaped];
 
         $records = $DB->get_records_sql($sql, $params);
-
         return $records;
     }
 
@@ -663,6 +674,8 @@ class conditionform extends \mod_pulse\automation\condition_base {
      * @return void
      */
     public function process_instance_save($instanceid, $data, $templatedata = null) {
+        global $DB;
+
         parent::process_instance_save($instanceid, $data, $templatedata);
 
         // Remove the event observers and recreate.
@@ -677,6 +690,25 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $list = \core\event\manager::get_all_observers();
         $cache->set('all', $list);
         purge_caches(['muc', 'other']);
+
+        if (empty($data['events'])) {
+            return;
+        }
+
+        $eventrecord = [
+            'instanceid' => $instanceid,
+            'eventname' => stripslashes($data['event']),
+            'notifyuser' => $data['notifyuser'] ?? '',
+        ];
+
+        if ($event = $DB->get_record('pulsecondition_events', ['instanceid' => $instanceid])) {
+            $eventrecord['id'] = $event->id;
+            // Update the record.
+            $DB->update_record('pulsecondition_events', $eventrecord);
+        } else {
+            // Insert the record.
+            $DB->insert_record('pulsecondition_events', $eventrecord);
+        }
     }
 
     /**
