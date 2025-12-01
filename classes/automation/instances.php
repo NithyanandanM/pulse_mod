@@ -677,9 +677,8 @@ class instances extends templates {
             }
         }
         // Store the templates, conditions and actions data. Find the overridden elements.
-        $conditions = helper::filter_record_byprefix($override, 'condition');
-        foreach ($conditions as $key => $status) {
-            $component = explode('_', $key)[0];
+        foreach ($record->condition as $component => $status) {
+            // $component = explode('_', $key)[0];            
             if (!isset($record->condition[$component])) {
                 continue;
             }

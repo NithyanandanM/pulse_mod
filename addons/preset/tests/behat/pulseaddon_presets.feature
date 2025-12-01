@@ -23,7 +23,7 @@ Feature: Create pulse using preset with pro features.
   @javascript @_file_upload
   Scenario: Created preset should displayed in preset list.
     Given I navigate to "Plugins > Activity modules > Pulse > Manage Presets" in site administration
-    And I press "Create Preset"
+    And I click on "Create Preset" "button"
     Then "form.create-preset-form" "css_element" should be visible
     And I set the following fields to these values:
       | Title | Demo Preset 3 |
@@ -39,8 +39,7 @@ Feature: Create pulse using preset with pro features.
     And I should see "Demo Preset 3" in the "#list-pulse-presets_r0_c0" "css_element"
     And I am on "Test" course homepage with editing mode on
     # And I click on "Add an activity or resource" "button"
-    And I open the activity chooser
-    And I click on "Pulse" "link"
+    And I add "Pulse" activity from the activity chooser
     Then I should see "Demo Preset 3" in the ".preset-title" "css_element"
     When I click on ".pulse-usepreset" "css_element"
     And I should see "Reaction > Type" in the ".modal-body .preset-config-params" "css_element"
@@ -57,16 +56,12 @@ Feature: Create pulse using preset with pro features.
     Given I navigate to "Plugins > Activity modules > Pulse > Manage Presets" in site administration
     And I click on "Enabled" "text" in the "#list-pulse-presets_r0_c4" "css_element"
     And I am on "Test" course homepage with editing mode on
-    # And I click on "Add an activity or resource" "button"
-    And I open the activity chooser
-    And I click on "Pulse" "link"
+    And I add "Pulse" activity from the activity chooser
     And I should not see "Welcome Message" in the ".preset-title" "css_element"
     And I navigate to "Plugins > Activity modules > Pulse > Manage Presets" in site administration
     And I click on "Disabled" "text" in the "#list-pulse-presets_r0_c4" "css_element"
     And I am on "Test" course homepage with editing mode on
-    And I open the activity chooser
-    # And I click on "Add an activity or resource" "button"
-    And I click on "Pulse" "link"
+    And I add "Pulse" activity from the activity chooser
     And I should see "Welcome Message" in the ".preset-title" "css_element"
 
   @javascript
@@ -79,7 +74,5 @@ Feature: Create pulse using preset with pro features.
     And I should see "Preset deleted successfully"
     Then I should not see "Demo pro preset 1"
     And I am on "Test" course homepage with editing mode on
-    # And I click on "Add an activity or resource" "button"
-    And I open the activity chooser
-    And I click on "Pulse" "link"
+    And I add "Pulse" activity from the activity chooser
     And I should not see "Demo pro preset 1" in the ".preset-title" "css_element"

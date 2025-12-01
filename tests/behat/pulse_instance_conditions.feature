@@ -74,7 +74,10 @@ Feature: Pulse automation instances conditions
     And I set the field "Trigger operator" to "Any"
     And I click on "#id_override_condition_activity_status" "css_element" in the "#fitem_id_condition_activity_status" "css_element"
     And I set the field "Activity completion" to "All"
-    And I set the field "Select activities" to "Assign1"
+    And I click on "#id_override_condition_activity_modules" "css_element" in the "#fitem_id_condition_activity_modules" "css_element"
+    And I set the field "Select activities" in the "#pulse-condition-tab" "css_element" to "Assign1"
+    Then I click on "#id_override_condition_activity_activitycount" "css_element" in the "#fitem_id_condition_activity_activitycount" "css_element"
+    And I set the field "Number of activities" to "1"
     And I press "Save changes"
     And I am on "Course 1" course homepage
     And I follow "Assign1"
@@ -182,7 +185,10 @@ Feature: Pulse automation instances conditions
     And I set the field "Trigger operator" to "Any"
     And I click on "#id_override_condition_activity_status" "css_element" in the "#fitem_id_condition_activity_status" "css_element"
     And I set the field "Activity completion" to "All"
-    And I set the field "Select activities" to "Forum1"
+    And I click on "#id_override_condition_activity_modules" "css_element" in the "#fitem_id_condition_activity_modules" "css_element"
+    And I set the field "Select activities" in the "#pulse-condition-tab" "css_element" to "Forum1"
+    Then I click on "#id_override_condition_activity_activitycount" "css_element" in the "#fitem_id_condition_activity_activitycount" "css_element"
+    And I set the field "Number of activities" to "1"
     And I press "Save changes"
     And I am on "Course 1" course homepage
     And I follow "Forum1"
@@ -333,7 +339,10 @@ Feature: Pulse automation instances conditions
     And I set the field "Trigger operator" to "Any"
     And I click on "#id_override_condition_activity_status" "css_element" in the "#fitem_id_condition_activity_status" "css_element"
     And I set the field "Activity completion" to "All"
-    And I set the field "Select activities" to "Assign1"
+    And I click on "#id_override_condition_activity_modules" "css_element" in the "#fitem_id_condition_activity_modules" "css_element"
+    And I set the field "Select activities" in the "#pulse-condition-tab" "css_element" to "Assign1"
+    Then I click on "#id_override_condition_activity_activitycount" "css_element" in the "#fitem_id_condition_activity_activitycount" "css_element"
+    And I set the field "Number of activities" to "1"
     And I press "Save changes"
     And I am on "Course 1" course homepage
     And I follow "Assign1"
@@ -411,7 +420,8 @@ Feature: Pulse automation instances conditions
   Scenario: Pulse User Approval option
     Given I am on "Course 1" course homepage with editing mode on
     And I open the activity chooser
-    And I click on "Pulse" "link"
+    When I click on "Add a new Pulse" "link" in the "Add an activity or resource" "dialogue"
+    And I click on "Add selected activity" "button" in the "Add an activity or resource" "dialogue"
     And I set the following fields to these values:
         | Title                       | Approval status |
         | Content                     | Approval status |

@@ -44,11 +44,11 @@ Feature: Pulse automation instances management
     Then I create automation template with the following fields to these values:
       | Title     | Template1 |
       | Reference | temp1     |
-    And I click on "Create new template" "button"
     Then I set the following fields to these values:
       | Title     | Notification1 |
       | Reference | notification1 |
     And I press "Save changes"
+
     And I click on ".action-edit" "css_element" in the "Template1" "table_row"
     And I click on "Instance Management" "link"
     And I should see "Course 1" in the "Category 1" "table_row"
@@ -460,7 +460,9 @@ Feature: Pulse automation instances management
     And I click on "#id_override_condition_activity_status" "css_element" in the "#fitem_id_condition_activity_status" "css_element"
     And I set the field "Activity completion" to "All"
     And I wait "2" seconds
-    And I set the field "Select activities" to "Assign1"
+    #id_override_condition_activity_modules
+    And I click on "#id_override_condition_activity_modules" "css_element" in the "#fitem_id_condition_activity_modules" "css_element"
+    And I set the field "Select activities" in the "#pulse-condition-tab" "css_element" to "Assign1"
     And I enable pulse action "notification" in the instance
     And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
     And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Student"
@@ -637,6 +639,11 @@ Feature: Pulse automation instances management
   @javascript
   Scenario: Notification of events condition for extending assignment submission deadlines
     Given I log in as "admin"
+    And I navigate to "Plugins > Activity modules > Events completion" in site administration
+    And I open the autocomplete suggestions list in the "#admin-availableevents" "css_element"
+    And I click on "An extension has been granted. \mod_assign\event\extension_granted" item in the autocomplete list
+    And I click on "footer" "css_element"
+    Then I press "Save changes"
     And I am on "Course 1" course homepage
     And I am on the "Assign1" "assign activity" page
     And I click on "Settings" "link" in the ".secondary-navigation" "css_element"
