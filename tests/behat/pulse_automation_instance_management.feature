@@ -41,14 +41,17 @@ Feature: Pulse automation instances management
     And I set the field "Assign1" to "1"
     And I press "Save changes"
 
+    And I navigate to "Plugins > Activity modules > Pulse > Automation templates" in site administration
+    Then I should see "Automation templates" in the "#region-main h2" "css_element"
+    And I should see "Create new template"
+    Then I click on "Create new template" "button"
+    And I set the following fields to these values:
+      | Title      | Template1 |
+      | Reference  | temp1  |
+    Then I press "Save changes"
     Then I create automation template with the following fields to these values:
-      | Title     | Template1 |
-      | Reference | temp1     |
-    Then I set the following fields to these values:
       | Title     | Notification1 |
       | Reference | notification1 |
-    And I press "Save changes"
-
     And I click on ".action-edit" "css_element" in the "Template1" "table_row"
     And I click on "Instance Management" "link"
     And I should see "Course 1" in the "Category 1" "table_row"
