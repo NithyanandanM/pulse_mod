@@ -674,7 +674,7 @@ Feature: Pulse automation instances management
     And I open the autocomplete suggestions list in the "#condition-events" "css_element"
     And I click on "An extension has been granted. \mod_assign\event\extension_granted" item in the autocomplete list
     And I click on "#id_override_condition_events_notifyuser" "css_element" in the "#fitem_id_condition_events_notifyuser" "css_element"
-    And I set the field "condition[events][notifyuser]" to "All"
+    And I set the field "condition[events][notifyuser]" to "Affected user"
     And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
     And I set the field "condition[events][eventscontext]" to "Selected activity"
     And I set the field "Event module" in the "#condition-events" "css_element" to "Assign1"
