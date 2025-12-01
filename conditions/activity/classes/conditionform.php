@@ -290,7 +290,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $modules = []
     ) {
 
-        if (empty($modules)) {
+        if (empty($modules) || $requiredcount <= 0) {
             return false;
         }
 

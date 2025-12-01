@@ -49,9 +49,11 @@ Feature: Pulse automation instances management
       | Title      | Template1 |
       | Reference  | temp1  |
     Then I press "Save changes"
+
     Then I create automation template with the following fields to these values:
       | Title     | Notification1 |
       | Reference | notification1 |
+
     And I click on ".action-edit" "css_element" in the "Template1" "table_row"
     And I click on "Instance Management" "link"
     And I should see "Course 1" in the "Category 1" "table_row"
@@ -664,7 +666,7 @@ Feature: Pulse automation instances management
     And I should see "Template1" in the "temp1C1" "table_row"
     And I click on ".action-edit" "css_element" in the "Template1" "table_row"
     And I click on "Condition" "link" in the "#automation-tabs" "css_element"
-    And I click on "#id_override_triggeroperator" "css_element" in the "#fitem_id_triggeroperator" "css_element"
+    And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
     And I set the field "Trigger operator" to "Any"
     And I click on "#id_override_condition_events_status" "css_element" in the "#fitem_id_condition_events_status" "css_element"
     And I set the field "Events completion" to "All"
@@ -672,8 +674,10 @@ Feature: Pulse automation instances management
     And I open the autocomplete suggestions list in the "#condition-events" "css_element"
     And I click on "An extension has been granted. \mod_assign\event\extension_granted" item in the autocomplete list
     And I click on "#id_override_condition_events_notifyuser" "css_element" in the "#fitem_id_condition_events_notifyuser" "css_element"
-    And I set the field "User" to "1"
-    And I set the field "Event module" to "Assign1"
+    And I set the field "condition[events][notifyuser]" to "All"
+    And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
+    And I set the field "condition[events][eventscontext]" to "Selected activity"
+    And I set the field "Event module" in the "#condition-events" "css_element" to "Assign1"
     And I enable pulse action "notification" in the instance
     And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
     And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Student"

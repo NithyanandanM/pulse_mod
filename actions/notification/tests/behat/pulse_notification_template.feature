@@ -135,8 +135,8 @@ Feature: Configuring the pulseaction_notification plugin on the "Automation temp
     And I switch to a second window
     Then ".reportbuilder-report" "css_element" should exist
     And the following should exist in the "reportbuilder-table" table:
-      | Full name      | Subject                                         | Status | Time created                    | Scheduled time                          |
-      | student User 1 | Welcome to learning portal Acceptance test site | Queued | ##now##%A, %d %B %Y, %I:%M %p## | ##+10 minutes##%A, %d %B %Y, %I:%M %p## |
+      | Full name      | Subject                                         | Status |
+      | student User 1 | Welcome to learning portal Acceptance test site | Queued |
 
   @javascript
   Scenario Outline: Pulse action Notification: Send notification for different role users

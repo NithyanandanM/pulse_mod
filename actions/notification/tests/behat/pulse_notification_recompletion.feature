@@ -20,6 +20,15 @@ Feature: Support recompletion notification action in pulse automation templates
       | user     | course | role    |
       | student1 | C1     | student |
       | teacher1 | C1     | teacher |
+    And the following "activities" exist:
+      | activity | name    | course | idnumber | intro            | section | completion |
+      | assign   | Assign1 | C1     | assign1  | Page description | 1       | 1          |
+    And I am on the "Course 1" "course" page logged in as "admin"
+    And I navigate to "Course completion" in current page administration
+    And I set the field "overall_aggregation" to "2"
+    And I expand all fieldsets
+    And I set the field "Assignment - Assign1" to "1"
+    And I press "Save changes"
 
   @javascript
   Scenario: Verify the recompletion reset the scheduled notification
@@ -33,19 +42,41 @@ Feature: Support recompletion notification action in pulse automation templates
       | Footer content | Copyright @ 2023 {Site_FullName}                                                        |
     Then I should see "Automation templates"
     And I should see "WELCOME MESSAGE" in the "pulse_automation_template" "table"
+    Then I am on "Course 1" course homepage
+    And I follow "Automation"
+    And I open the autocomplete suggestions list
+    And I click on "WELCOME MESSAGE" item in the autocomplete list
+    And I click on "Add automation instance" "button"
+    And I set the following fields to these values:
+      | insreference | instance |
+    And I click on "Condition" "link" in the "#automation-tabs" "css_element"
+    And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
+    And I set the field "Trigger operator" to "Any"
+    And I click on "#id_override_condition_activity_status" "css_element" in the "#fitem_id_condition_activity_status" "css_element"
+    And I set the field "Activity completion" to "All"
+    And I wait "5" seconds
+    And I click on "#id_override_condition_activity_modules" "css_element" in the "#fitem_id_condition_activity_modules" "css_element"
+    And I set the field "Select activities" in the "#pulse-condition-tab" "css_element" to "Assign1"
+    Then I click on "#id_override_condition_activity_activitycount" "css_element" in the "#fitem_id_condition_activity_activitycount" "css_element"
+    And I set the field "Number of activities" to "1"
+    And I press "Save changes"
+    And I log out
+    And I am on the "Course 1" course page logged in as student1
+    And I should see "Assign1"
+    And I press "Mark as done"
+    Then I log out
+    Then I log in as "admin"
     And I navigate to course "Course 1" automation instances
-    And I create pulse notification instance "WELCOME MESSAGE" "COURSE_1" to these values:
-      | Recipients | Student |
-    And I should see "WELCOMEMESSAGE_COURSE_1" in the "pulse_automation_template" "table"
-    Then I click on ".action-report#notification-action-report" "css_element" in the "WELCOMEMESSAGE_COURSE_1" "table_row"
+    And I should see "WELCOMEMESSAGE_instance" in the "pulse_automation_template" "table"
+    Then I click on ".action-report#notification-action-report" "css_element" in the "WELCOMEMESSAGE_instance" "table_row"
     And I switch to a second window
     And ".reportbuilder-report" "css_element" should exist
     And the following should exist in the "reportbuilder-table" table:
       | Full name      | Subject                         | Status |
-      | student User 1 | Welcome to Acceptance test site | Queued |
+      | student User 1 | Welcome to Acceptance test site | sent |
     And I am on "Course 1" course homepage
     When I select "More" from secondary navigation
-    And I follow "Course completion"
+    And I follow "Course recompletion"
     And I expand all fieldsets
     And I set the field "Recompletion type" to "On demand"
     And I click on "#id_pulse_1" "css_element"
@@ -57,9 +88,9 @@ Feature: Support recompletion notification action in pulse automation templates
     And I press "Reset all completion for selected users"
     And I should see "Completion for the selected students in this course has been reset."
     Then I navigate to course "Course 1" automation instances
-    And I click on ".action-report#notification-action-report" "css_element" in the "WELCOMEMESSAGE_COURSE_1" "table_row"
+    And I click on ".action-report#notification-action-report" "css_element" in the "WELCOMEMESSAGE_instance" "table_row"
     And I switch to a pulse open window
-    And the following should not exist in the "reportbuilder-table" table:
+    And the following should exist in the "reportbuilder-table" table:
       | Full name      | Subject                         | Status |
       | student User 1 | Welcome to Acceptance test site | Queued |
     And I log out

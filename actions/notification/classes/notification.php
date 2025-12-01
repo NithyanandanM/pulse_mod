@@ -961,15 +961,18 @@ class notification {
         }
 
         if ($data->notifydelay == self::DELAYAFTER) {
+            $delay = $data->delayduration;
+
             if (!$expectedruntime) {
                 $delaytime = $this->get_delay_supported_time($data);
                 if (!empty($delaytime)) {
                     $nextrun->setTimestamp($delaytime);
+                    $nextrun->modify("+ $delay seconds");
                 }
+            } else {
+                $nextrun->modify("+ $delay seconds");
             }
 
-            $delay = $data->delayduration;
-            $nextrun->modify("+ $delay seconds");
         } else if ($data->notifydelay == self::DELAYBEFORE) {
             $delay = $data->delayduration;
 
@@ -991,12 +994,18 @@ class notification {
      * Get delay supported time from enabled conditions.
      *
      * @param object $data The automation data
-     * @return int|false The timestamp from delay-supported condition or false
+     * @return int The timestamp from delay-supported condition
      */
     protected function get_delay_supported_time($data) {
         $conditions = $this->instancedata->condition ?? [];
 
+        $time = time();
         foreach ($conditions as $conditionname => $conditiondata) {
+
+            if ($conditiondata == 0 || empty($conditiondata['status'])) {
+                continue;
+            }
+
             $conditionclass = "\\pulsecondition_{$conditionname}\\conditionform";
             if (!class_exists($conditionclass)) {
                 continue;
@@ -1010,13 +1019,10 @@ class notification {
             $method = 'get_' . $conditionname . '_time';
             if (method_exists($conditionclass, $method)) {
                 $time = $conditionclass::$method($data, $this->instancedata);
-                if (!empty($time)) {
-                    return $time;
-                }
             }
         }
 
-        return false;
+        return $time;
     }
 
     /**

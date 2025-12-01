@@ -25,5 +25,5 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = "pulseaction_credits";
-$plugin->version = 2025092614;
+$plugin->version = 2025092615;
 $plugin->supported = [401, 405];

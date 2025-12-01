@@ -198,7 +198,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
             [0 => ''] + $cmlist
         );
         $mform->hideIf('condition[events][modules]', 'condition[events][status]', 'eq', self::DISABLED);
-
+        $mform->hideIf('condition[events][modules]', 'condition[events][eventscontext]', 'neq', self::EVENTSCONTEXT_SELECTED);
         $mform->addElement('hidden', 'override[condition_events_modules]', 1);
         $mform->setType('override[condition_events_modules]', PARAM_INT);
     }
@@ -229,13 +229,17 @@ class conditionform extends \mod_pulse\automation\condition_base {
      */
     public function is_user_completed($instancedata, int $userid, ?\completion_info $completion = null) {
         global $DB;
-
         if (isset($instancedata->condition['events']) && $instancedata->condition['events']['status']) {
             $eventdata = $instancedata->condition['events'];
             // Generate the sql to fetch the evnet log.
-            [$sql, $params] = $this->generate_log_sql($eventdata, $userid, $instancedata);
+            $result = $this->generate_log_sql($eventdata, $userid, $instancedata);
+            if (empty($result)) {
+                return false;
+            }
+            [$sql, $params] = $result;
+
             $status = $DB->record_exists_sql($sql, $params);
-            return $status;
+            return $status ? true : false;
         }
 
         return false;
@@ -258,6 +262,11 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
         // Configured event context.
         $contextconfigured = (int) ($eventdata['eventscontext'] ?? self::EVENTSCONTEXT_NONE);
+
+        // If event context is "selected" but no module is selected return zero rows.
+        if ($contextconfigured === self::EVENTSCONTEXT_SELECTED && empty($eventdata['modules'])) {
+            return []; 
+        }
 
         // Generate the sql to fetch the event log.
         $sql = "SELECT *
@@ -367,6 +376,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
                 && $data['contextlevel'] == CONTEXT_MODULE 
                 && $contextconfigured == self::EVENTSCONTEXT_SELECTED
             ) {
+
                 continue;
             }
 
@@ -439,7 +449,6 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $eventnameescaped = '%"event":"' . $eventnameescaped . '"%';
 
         $params = ['events' => '%"events"%', 'value' => $name, 'eventname' => $eventnameescaped];
-
         $records = $DB->get_records_sql($sql, $params);
         return $records;
     }
@@ -691,7 +700,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $cache->set('all', $list);
         purge_caches(['muc', 'other']);
 
-        if (empty($data['events'])) {
+        if (empty($data['event'])) {
             return;
         }
 
