@@ -463,7 +463,7 @@ class behat_pulse extends behat_base {
 
         $enrolments = $DB->get_records_sql($sql, [
             'userid' => $user->id,
-            'courseid' => $course->id
+            'courseid' => $course->id,
         ]);
 
         if (empty($enrolments)) {
@@ -499,14 +499,12 @@ class behat_pulse extends behat_base {
         // Get course.
         $course = $DB->get_record('course', ['shortname' => $coursename], '*', MUST_EXIST);
 
-
         $lastaccesstime = strtotime("$offset $unit", time());
-
 
         // Check if record exists.
         $lastaccess = $DB->get_record('user_lastaccess', [
             'userid' => $user->id,
-            'courseid' => $course->id
+            'courseid' => $course->id,
         ]);
 
         if ($lastaccess) {
@@ -531,7 +529,7 @@ class behat_pulse extends behat_base {
      * @param string $offset The time offset (positive number for past time).
      * @param string $unit The time unit (minutes, hours, days, or weeks).
      * @param string $username The username.
-     * @param string $activityname The activity name.
+     * @param string $activityidnumber The activity ID number.
      * @param string $coursename The course name.
      */
     public function i_set_activity_completion_time($offset, $unit, $username, $activityidnumber, $coursename) {
@@ -545,7 +543,7 @@ class behat_pulse extends behat_base {
 
         $cm = $DB->get_record('course_modules', [
             'course' => $course->id,
-            'idnumber' => $activityidnumber
+            'idnumber' => $activityidnumber,
         ]);
 
         if (!$cm) {
@@ -561,7 +559,7 @@ class behat_pulse extends behat_base {
         // Check if completion record exists.
         $completion = $DB->get_record('course_modules_completion', [
             'coursemoduleid' => $cm->id,
-            'userid' => $user->id
+            'userid' => $user->id,
         ]);
 
         if ($completion) {
@@ -581,18 +579,18 @@ class behat_pulse extends behat_base {
     }
 
     /**
-        * Selects an activity from the activity chooser and clicks "Add selected activity".
-        *
-        * @Given /^I add "(?P<activity_name_string>(?:[^"]|\\")*)" activity from the activity chooser$/
-        * @param string $activityname
-        */
+     * Selects an activity from the activity chooser and clicks "Add selected activity".
+     *
+     * @Given /^I add "(?P<activity_name_string>(?:[^"]\\")*)" activity from the activity chooser$/
+     * @param string $activityname
+     */
     public function i_add_activity_from_the_activity_chooser($activityname) {
         global $CFG;
         // Open activity chooser.
         $this->execute('behat_course::i_open_the_activity_chooser');
 
         if ($CFG->branch <= "405") {
-            $this->execute('behat_general::i_click_on',[$activityname, "link"]);
+            $this->execute('behat_general::i_click_on', [$activityname, "link"]);
         } else {
             $this->execute('behat_general::i_click_on', [
                "Add a new {$activityname}",

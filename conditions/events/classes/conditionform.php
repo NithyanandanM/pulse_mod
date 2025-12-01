@@ -265,7 +265,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
         // If event context is "selected" but no module is selected return zero rows.
         if ($contextconfigured === self::EVENTSCONTEXT_SELECTED && empty($eventdata['modules'])) {
-            return []; 
+            return [];
         }
 
         // Generate the sql to fetch the event log.
@@ -370,13 +370,12 @@ class conditionform extends \mod_pulse\automation\condition_base {
 
             // Module configured for this instance event, and the event is not for this module, continue to next instance.
             if (
-                property_exists($additional, 'modules') 
-                && ((int) $additional->modules) > 0 
-                && (int) $additional->modules !== $data['contextinstanceid'] 
-                && $data['contextlevel'] == CONTEXT_MODULE 
+                property_exists($additional, 'modules')
+                && ((int) $additional->modules) > 0
+                && (int) $additional->modules !== $data['contextinstanceid']
+                && $data['contextlevel'] == CONTEXT_MODULE
                 && $contextconfigured == self::EVENTSCONTEXT_SELECTED
             ) {
-
                 continue;
             }
 

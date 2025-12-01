@@ -230,7 +230,6 @@ abstract class condition_base {
      */
     public function process_instance_save($instanceid, $data, $templatedata = null) {
         global $DB;
-        // print_obj($data);
         // Remove empty values from data array.
         $filter = array_filter($data);
         // If 'status' is not set and there are no other non-empty values, stopped here.
@@ -262,26 +261,6 @@ abstract class condition_base {
         unset($data['status']);
         // Encode additional data as JSON.
         $record['additional'] = json_encode($data);
-
-        // echo $this->component;
-        // if ($this->component == 'events') {
-
-        //     if ($this->component == 'events' && array_key_exists('event', $data)) {
-        //         $eventrecord = [
-        //             'instanceid' => $instanceid,
-        //             'eventname' => stripslashes($data['event']),
-        //             'notifyuser' => $data['notifyuser'] ?? '',
-        //         ];
-        //         if ($event = $DB->get_record('pulsecondition_events', ['instanceid' => $instanceid])) {
-        //             $eventrecord['id'] = $event->id;
-        //             // Update the record.
-        //             $DB->update_record('pulsecondition_events', $eventrecord);
-        //         } else {
-        //             // Insert the record.
-        //             $DB->insert_record('pulsecondition_events', $eventrecord);
-        //         }
-        //     }
-        // }
 
         // Check if a record already exists for this instance and trigger condition.
         if (

@@ -678,7 +678,6 @@ class instances extends templates {
         }
         // Store the templates, conditions and actions data. Find the overridden elements.
         foreach ($record->condition as $component => $status) {
-            // $component = explode('_', $key)[0];            
             if (!isset($record->condition[$component])) {
                 continue;
             }

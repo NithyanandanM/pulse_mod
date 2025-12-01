@@ -972,7 +972,6 @@ class notification {
             } else {
                 $nextrun->modify("+ $delay seconds");
             }
-
         } else if ($data->notifydelay == self::DELAYBEFORE) {
             $delay = $data->delayduration;
 
@@ -1001,7 +1000,6 @@ class notification {
 
         $time = time();
         foreach ($conditions as $conditionname => $conditiondata) {
-
             if ($conditiondata == 0 || empty($conditiondata['status'])) {
                 continue;
             }
