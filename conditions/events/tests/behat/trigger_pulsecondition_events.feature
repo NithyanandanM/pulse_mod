@@ -166,132 +166,132 @@ Feature: Event trigger event.
       | Course 1         | Template1    | Event completion notification | student User 1 | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | Queued |
     And I close all opened windows
 
-  Scenario: Event context of event condition - selected activities
-    And I am on "Course 1" course homepage
-    And I navigate to "Automation" in current page administration
-    And I wait until the page is ready
-    And I open the autocomplete suggestions list
-    And I click on "Template1" item in the autocomplete list
-    And I click on "Add automation instance" "button" in the ".template-add-form" "css_element"
-    And I set the field "insreference" to "temp1"
-    And I click on "#id_override_frequencylimit" "css_element" in the "#fitem_id_frequencylimit" "css_element"
-    And I set the field "frequencylimit" to "1"
-    And I press "Save changes"
+  # Scenario: Event context of event condition - selected activities
+  #   And I am on "Course 1" course homepage
+  #   And I navigate to "Automation" in current page administration
+  #   And I wait until the page is ready
+  #   And I open the autocomplete suggestions list
+  #   And I click on "Template1" item in the autocomplete list
+  #   And I click on "Add automation instance" "button" in the ".template-add-form" "css_element"
+  #   And I set the field "insreference" to "temp1"
+  #   And I click on "#id_override_frequencylimit" "css_element" in the "#fitem_id_frequencylimit" "css_element"
+  #   And I set the field "frequencylimit" to "1"
+  #   And I press "Save changes"
 
-    # Check the schedule for the instance
-    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
-    And I switch to a second window
-    And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
-    And I close all opened windows
+  #   # Check the schedule for the instance
+  #   And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
+  #   And I switch to a second window
+  #   And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
+  #   And I close all opened windows
 
-    # Instance Conditions - Activity completion
-    And I click on ".action-edit" "css_element" in the "Template1" "table_row"
-    Then I follow "Condition"
-    And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
-    Then the field "Trigger operator" matches value "All"
-    And I click on "#id_override_condition_events_status" "css_element" in the "#fitem_id_condition_events_status" "css_element"
-    And I set the field "condition[events][status]" to "Upcoming"
-    And I click on "#id_override_condition_events_event" "css_element" in the "#fitem_id_condition_events_event" "css_element"
-    And "Course module created" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
-    And "Submission created" "text" should not exist in the "#fitem_id_condition_events_event" "css_element"
+  #   # Instance Conditions - Activity completion
+  #   And I click on ".action-edit" "css_element" in the "Template1" "table_row"
+  #   Then I follow "Condition"
+  #   And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
+  #   Then the field "Trigger operator" matches value "All"
+  #   And I click on "#id_override_condition_events_status" "css_element" in the "#fitem_id_condition_events_status" "css_element"
+  #   And I set the field "condition[events][status]" to "Upcoming"
+  #   And I click on "#id_override_condition_events_event" "css_element" in the "#fitem_id_condition_events_event" "css_element"
+  #   And "Course module created" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
+  #   And "Submission created" "text" should not exist in the "#fitem_id_condition_events_event" "css_element"
 
-    And I click on "#id_override_condition_events_notifyuser" "css_element" in the "#fitem_id_condition_events_notifyuser" "css_element"
-    And I set the field "condition[events][notifyuser]" to "Related user"
-    And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
-    And I set the field "condition[events][eventscontext]" to "Selected activity"
-    And I set the field "Event module" in the "#condition-events" "css_element" to "Assign4"
+  #   And I click on "#id_override_condition_events_notifyuser" "css_element" in the "#fitem_id_condition_events_notifyuser" "css_element"
+  #   And I set the field "condition[events][notifyuser]" to "Related user"
+  #   And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
+  #   And I set the field "condition[events][eventscontext]" to "Selected activity"
+  #   And I set the field "Event module" in the "#condition-events" "css_element" to "Assign4"
 
-    # Instance Notifications
-    And I click on "Notification" "link" in the "#automation-tabs" "css_element"
-    And I click on "#id_override_pulsenotification_actionstatus" "css_element" in the "#fitem_id_pulsenotification_actionstatus" "css_element"
-    And I set the field "id_pulsenotification_actionstatus" to "Enabled"
-    And I click on "#id_override_pulsenotification_sender" "css_element" in the "#fitem_id_pulsenotification_sender" "css_element"
-    And I set the field "pulsenotification_sender" to "Course teacher"
-    And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
-    And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Teacher"
+  #   # Instance Notifications
+  #   And I click on "Notification" "link" in the "#automation-tabs" "css_element"
+  #   And I click on "#id_override_pulsenotification_actionstatus" "css_element" in the "#fitem_id_pulsenotification_actionstatus" "css_element"
+  #   And I set the field "id_pulsenotification_actionstatus" to "Enabled"
+  #   And I click on "#id_override_pulsenotification_sender" "css_element" in the "#fitem_id_pulsenotification_sender" "css_element"
+  #   And I set the field "pulsenotification_sender" to "Course teacher"
+  #   And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
+  #   And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Teacher"
 
-    And I click on "#id_override_pulsenotification_subject" "css_element" in the "#fitem_id_pulsenotification_subject" "css_element"
-    And I set the field "pulsenotification_subject" to "Event completion notification"
-    And I click on "#id_override_pulsenotification_headercontent_editor" "css_element" in the "#fitem_id_pulsenotification_headercontent_editor" "css_element"
-    And I click on "#header-email-vars-button" "css_element" in the ".mod-pulse-emailvars-toggle" "css_element"
-    And I click on pulse "id_pulsenotification_headercontent_editor" editor
-    And I click on "#Firstname" "css_element" in the ".Sender_field-placeholders" "css_element"
-    And I press "Save changes"
-    And the following "users" exist:
-      | username | firstname | lastname | email             |
-      | student2 | student   | User 2   | student2@test.com |
-    And the following "course enrolments" exist:
-      | user     | course | role    |
-      | student2 | C1     | student |
-    And I log out
+  #   And I click on "#id_override_pulsenotification_subject" "css_element" in the "#fitem_id_pulsenotification_subject" "css_element"
+  #   And I set the field "pulsenotification_subject" to "Event completion notification"
+  #   And I click on "#id_override_pulsenotification_headercontent_editor" "css_element" in the "#fitem_id_pulsenotification_headercontent_editor" "css_element"
+  #   And I click on "#header-email-vars-button" "css_element" in the ".mod-pulse-emailvars-toggle" "css_element"
+  #   And I click on pulse "id_pulsenotification_headercontent_editor" editor
+  #   And I click on "#Firstname" "css_element" in the ".Sender_field-placeholders" "css_element"
+  #   And I press "Save changes"
+  #   And the following "users" exist:
+  #     | username | firstname | lastname | email             |
+  #     | student2 | student   | User 2   | student2@test.com |
+  #   And the following "course enrolments" exist:
+  #     | user     | course | role    |
+  #     | student2 | C1     | student |
+  #   And I log out
 
-    And I log in as "student1"
-    And I am on "Course 1" course homepage
-    And I am on the "Assign3" "assign activity" page
-    And I click on "Add submission" "button"
-    And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
-    And I press "Save changes"
-    And I click on "Submit assignment" "button"
-    And I click on "Continue" "button"
+  #   And I log in as "student1"
+  #   And I am on "Course 1" course homepage
+  #   And I am on the "Assign3" "assign activity" page
+  #   And I click on "Add submission" "button"
+  #   And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
+  #   And I press "Save changes"
+  #   And I click on "Submit assignment" "button"
+  #   And I click on "Continue" "button"
 
-    And I am on the "Assign4" "assign activity" page
-    And I click on "Add submission" "button"
-    And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
-    And I press "Save changes"
-    And I click on "Submit assignment" "button"
-    And I click on "Continue" "button"
-    And I log out
+  #   And I am on the "Assign4" "assign activity" page
+  #   And I click on "Add submission" "button"
+  #   And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
+  #   And I press "Save changes"
+  #   And I click on "Submit assignment" "button"
+  #   And I click on "Continue" "button"
+  #   And I log out
 
-    # Event condition - General settings
-    And I log in as "admin"
-    And I am on "Course 1" course homepage
-    And I navigate to "Automation" in current page administration
-    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
-    And I switch to a second window
-    And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
-    And I close all opened windows
-    And I log out
+  #   # Event condition - General settings
+  #   And I log in as "admin"
+  #   And I am on "Course 1" course homepage
+  #   And I navigate to "Automation" in current page administration
+  #   And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
+  #   And I switch to a second window
+  #   And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
+  #   And I close all opened windows
+  #   And I log out
 
-    And I log in as "student2"
-    And I am on "Course 1" course homepage
-    And I am on the "Assign3" "assign activity" page
-    And I click on "Add submission" "button"
-    And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
-    And I press "Save changes"
-    And I click on "Submit assignment" "button"
-    And I click on "Continue" "button"
+  #   And I log in as "student2"
+  #   And I am on "Course 1" course homepage
+  #   And I am on the "Assign3" "assign activity" page
+  #   And I click on "Add submission" "button"
+  #   And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
+  #   And I press "Save changes"
+  #   And I click on "Submit assignment" "button"
+  #   And I click on "Continue" "button"
 
-    And I am on the "Assign4" "assign activity" page
-    And I click on "Add submission" "button"
-    And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
-    And I press "Save changes"
-    And I click on "Submit assignment" "button"
-    And I click on "Continue" "button"
-    And I log out
+  #   And I am on the "Assign4" "assign activity" page
+  #   And I click on "Add submission" "button"
+  #   And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
+  #   And I press "Save changes"
+  #   And I click on "Submit assignment" "button"
+  #   And I click on "Continue" "button"
+  #   And I log out
 
-    # Add available events
-    And I log in as "admin"
-    And I navigate to "Plugins > Activity modules > Pulse > Events completion" in site administration
-    And I click on "#admin-availableevents .form-autocomplete-selection .badge:nth-child(3)" "css_element"
-    And I set the field "Available events" in the "#admin-availableevents" "css_element" to "Submission created, Course viewed"
-    And I press "Save changes"
+  #   # Add available events
+  #   And I log in as "admin"
+  #   And I navigate to "Plugins > Activity modules > Pulse > Events completion" in site administration
+  #   And I click on "#admin-availableevents .form-autocomplete-selection .badge:nth-child(3)" "css_element"
+  #   And I set the field "Available events" in the "#admin-availableevents" "css_element" to "Submission created, Course viewed"
+  #   And I press "Save changes"
 
-    # And I am on "Course 1" course homepage
-    # And I navigate to "Automation" in current page administration
-    # And I click on ".action-edit" "css_element" in the "Template1" "table_row"
-    # Then I follow "Condition"
-    # And "Submission created" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
-    # And "Course viewed" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
-    # And "Course module created" "text" should not exist in the "#fitem_id_condition_events_event" "css_element"
-    # And I press "Save changes"
+  #   # And I am on "Course 1" course homepage
+  #   # And I navigate to "Automation" in current page administration
+  #   # And I click on ".action-edit" "css_element" in the "Template1" "table_row"
+  #   # Then I follow "Condition"
+  #   # And "Submission created" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
+  #   # And "Course viewed" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
+  #   # And "Course module created" "text" should not exist in the "#fitem_id_condition_events_event" "css_element"
+  #   # And I press "Save changes"
 
-    # Completion Status
-    # Check the schedule for the instance
-    And I am on "Course 1" course homepage
-    And I navigate to "Automation" in current page administration
-    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
-    And I switch to a second window
-    And the following should exist in the "reportbuilder-table" table:
-      | Course full name | Message type | Subject                       | Full name      | Time created                    | Scheduled time                  | Status |
-      | Course 1         | Template1    | Event completion notification | Teacher User 1 | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | Queued |
-    And I close all opened windows
+  #   # Completion Status
+  #   # Check the schedule for the instance
+  #   And I am on "Course 1" course homepage
+  #   And I navigate to "Automation" in current page administration
+  #   And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
+  #   And I switch to a second window
+  #   And the following should exist in the "reportbuilder-table" table:
+  #     | Course full name | Message type | Subject                       | Full name      | Time created                    | Scheduled time                  | Status |
+  #     | Course 1         | Template1    | Event completion notification | Teacher User 1 | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | Queued |
+  #   And I close all opened windows

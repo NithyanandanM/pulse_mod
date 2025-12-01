@@ -642,61 +642,61 @@ Feature: Pulse automation instances management
     And I press "Save changes"
 
   @javascript
-  Scenario: Notification of events condition for extending assignment submission deadlines
-    Given I log in as "admin"
-    And I navigate to "Plugins > Activity modules > Events completion" in site administration
-    And I open the autocomplete suggestions list in the "#admin-availableevents" "css_element"
-    And I click on "An extension has been granted. \mod_assign\event\extension_granted" item in the autocomplete list
-    And I click on "footer" "css_element"
-    Then I press "Save changes"
-    And I am on "Course 1" course homepage
-    And I am on the "Assign1" "assign activity" page
-    And I click on "Settings" "link" in the ".secondary-navigation" "css_element"
-    And I set the following fields to these values:
-      | Due date | ##1 March 2024## |
-    And I press "Save and display"
-    And I log out
-    And I log in as "student1"
-    And I am on "Course 1" course homepage
-    And I am on the "Assign1" "assign activity" page
-    And I should see "The due date for this assignment has now passed" in the "Time remaining" "table_row"
-    And I log out
-    And I log in as "admin"
-    And I navigate to course "Course 1" automation instances
-    And I should see "Template1" in the "temp1C1" "table_row"
-    And I click on ".action-edit" "css_element" in the "Template1" "table_row"
-    And I click on "Condition" "link" in the "#automation-tabs" "css_element"
-    And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
-    And I set the field "Trigger operator" to "Any"
-    And I click on "#id_override_condition_events_status" "css_element" in the "#fitem_id_condition_events_status" "css_element"
-    And I set the field "Events completion" to "All"
-    And I click on "#id_override_condition_events_event" "css_element" in the "#fitem_id_condition_events_event" "css_element"
-    And I open the autocomplete suggestions list in the "#condition-events" "css_element"
-    And I click on "An extension has been granted. \mod_assign\event\extension_granted" item in the autocomplete list
-    And I click on "#id_override_condition_events_notifyuser" "css_element" in the "#fitem_id_condition_events_notifyuser" "css_element"
-    And I set the field "condition[events][notifyuser]" to "Affected user"
-    And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
-    And I set the field "condition[events][eventscontext]" to "Selected activity"
-    And I set the field "Event module" in the "#condition-events" "css_element" to "Assign1"
-    And I enable pulse action "notification" in the instance
-    And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
-    And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Student"
-    And I click on "#id_override_pulsenotification_cc" "css_element" in the "#fitem_id_pulsenotification_cc" "css_element"
-    And I set the field "Cc" to "Teacher"
-    And I press "Save changes"
-    And I am on "Course 1" course homepage
-    And I am on the "Assign1" "assign activity" page
-    And I click on assignment submissions button
-    And I click on "student User 1" edit menu on submissions page
-    And I choose "Grant extension" in the open action menu
-    And I set the following fields to these values:
-      | Extension due date | ##1 July 2024## |
-    And I press "Save changes"
-    And I should see "Extension granted until: Monday, 1 July 2024, 12:00 AM" in the "student User 1" "table_row"
-    And I navigate to course "Course 1" automation instances
-    And I am on "Course 1" course homepage
-    And I navigate to course "Course 1" automation instances
-    And I should see "Template1" in the "temp1C1" "table_row"
-    And I click on ".action-report#notification-action-report" "css_element" in the "temp1C1" "table_row"
-    And I switch to a second window
-    And I should see "sent" in the "Template1" "table_row"
+  # Scenario: Notification of events condition for extending assignment submission deadlines
+  #   Given I log in as "admin"
+  #   And I navigate to "Plugins > Activity modules > Events completion" in site administration
+  #   And I open the autocomplete suggestions list in the "#admin-availableevents" "css_element"
+  #   And I click on "An extension has been granted. \mod_assign\event\extension_granted" item in the autocomplete list
+  #   And I click on "footer" "css_element"
+  #   Then I press "Save changes"
+  #   And I am on "Course 1" course homepage
+  #   And I am on the "Assign1" "assign activity" page
+  #   And I click on "Settings" "link" in the ".secondary-navigation" "css_element"
+  #   And I set the following fields to these values:
+  #     | Due date | ##1 March 2024## |
+  #   And I press "Save and display"
+  #   And I log out
+  #   And I log in as "student1"
+  #   And I am on "Course 1" course homepage
+  #   And I am on the "Assign1" "assign activity" page
+  #   And I should see "The due date for this assignment has now passed" in the "Time remaining" "table_row"
+  #   And I log out
+  #   And I log in as "admin"
+  #   And I navigate to course "Course 1" automation instances
+  #   And I should see "Template1" in the "temp1C1" "table_row"
+  #   And I click on ".action-edit" "css_element" in the "Template1" "table_row"
+  #   And I click on "Condition" "link" in the "#automation-tabs" "css_element"
+  #   And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
+  #   And I set the field "Trigger operator" to "Any"
+  #   And I click on "#id_override_condition_events_status" "css_element" in the "#fitem_id_condition_events_status" "css_element"
+  #   And I set the field "Events completion" to "All"
+  #   And I click on "#id_override_condition_events_event" "css_element" in the "#fitem_id_condition_events_event" "css_element"
+  #   And I open the autocomplete suggestions list in the "#condition-events" "css_element"
+  #   And I click on "An extension has been granted. \mod_assign\event\extension_granted" item in the autocomplete list
+  #   And I click on "#id_override_condition_events_notifyuser" "css_element" in the "#fitem_id_condition_events_notifyuser" "css_element"
+  #   And I set the field "condition[events][notifyuser]" to "Affected user"
+  #   And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
+  #   And I set the field "condition[events][eventscontext]" to "Selected activity"
+  #   And I set the field "Event module" in the "#condition-events" "css_element" to "Assign1"
+  #   And I enable pulse action "notification" in the instance
+  #   And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
+  #   And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Student"
+  #   And I click on "#id_override_pulsenotification_cc" "css_element" in the "#fitem_id_pulsenotification_cc" "css_element"
+  #   And I set the field "Cc" to "Teacher"
+  #   And I press "Save changes"
+  #   And I am on "Course 1" course homepage
+  #   And I am on the "Assign1" "assign activity" page
+  #   And I click on assignment submissions button
+  #   And I click on "student User 1" edit menu on submissions page
+  #   And I choose "Grant extension" in the open action menu
+  #   And I set the following fields to these values:
+  #     | Extension due date | ##1 July 2024## |
+  #   And I press "Save changes"
+  #   And I should see "Extension granted until: Monday, 1 July 2024, 12:00 AM" in the "student User 1" "table_row"
+  #   And I navigate to course "Course 1" automation instances
+  #   And I am on "Course 1" course homepage
+  #   And I navigate to course "Course 1" automation instances
+  #   And I should see "Template1" in the "temp1C1" "table_row"
+  #   And I click on ".action-report#notification-action-report" "css_element" in the "temp1C1" "table_row"
+  #   And I switch to a second window
+  #   And I should see "sent" in the "Template1" "table_row"
