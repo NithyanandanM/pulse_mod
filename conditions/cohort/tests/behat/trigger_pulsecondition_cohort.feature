@@ -1,6 +1,6 @@
-@mod @mod_pulse @pulse_triggercondition  @pulsecondition_session
-Feature: Session trigger event.
-  In To Verify Pulse Automation Template Conditions for Session as a Teacher.
+@mod @mod_pulse @pulse_triggercondition  @pulsecondition_cohort
+Feature: Cohort trigger event.
+  In To Verify Pulse Automation Template Conditions for Cohort as a Teacher.
 
   Background:
     Given the following "course" exist:
@@ -16,20 +16,18 @@ Feature: Session trigger event.
       | teacher1 | C1     | editingteacher |
       | user1    | C1     | student        |
       | user2    | C1     | student        |
+    And the following "cohorts" exist:
+      | name     | idnumber |
+      | Cohort 1 | CH1      |
+      | Cohort 2 | CH2      |
+    And the following "cohort members" exist:
+      | user  | cohort |
+      | user1 | CH1    |
+      | user2 | CH2    |
 
   @javascript
-  Scenario: Check the pulse condition session trigger workflow.
+  Scenario: Check the pluse condition cohorts trigger workflow.
     Given I log in as "admin"
-    And I am on "Course 1" course homepage with editing mode on
-    # And I click on "Add an activity or resource" "button"
-    And I add "Face-to-Face" activity from the activity chooser
-    And I set the field "Name" to "FaceFace 01"
-    And I press "Save and return to course"
-    Then "FaceFace 01" activity should be visible
-    When I add a "Face-to-Face" to section "1" using the activity chooser
-    And I set the field "Name" to "FaceFace 02"
-    And I press "Save and return to course"
-    Then "FaceFace 02" activity should be visible
     Then I create automation template with the following fields to these values:
       | Title     | WELCOME MESSAGE 01 |
       | Reference | Welcomemessage     |
@@ -37,8 +35,8 @@ Feature: Session trigger event.
       | Title     | WELCOME MESSAGE 02 |
       | Reference | Welcomemessage02   |
     Then I create "Welcomemessage" template with the set the condition:
-      | Session booking  | All |
-      | Trigger operator | All |
+      | Member in cohorts | All |
+      | Trigger operator  | All |
     And I am on "Course 1" course homepage
     And I follow "Automation"
     When I open the autocomplete suggestions list
@@ -47,10 +45,12 @@ Feature: Session trigger event.
     And I set the following fields to these values:
       | insreference | Welcomemessage |
     Then I follow "Condition"
-    Then I should see "Session booking"
-    Then the field "Session booking" matches value "All"
-    And I should see "Session module"
-    Then I should see "FaceFace 01" in the "#fitem_id_condition_session_modules" "css_element"
+    Then I should see "Member in cohorts"
+    Then the field "Member in cohorts" matches value "All"
+    And I should see "Cohorts"
+    Then I click on "#fitem_id_condition_cohort_cohorts .form-autocomplete-downarrow" "css_element"
+    Then I should see "Cohort 1" in the "#fitem_id_condition_cohort_cohorts .form-autocomplete-suggestions" "css_element"
+    Then I should see "Cohort 2" in the "#fitem_id_condition_cohort_cohorts .form-autocomplete-suggestions" "css_element"
     And I press "Save changes"
     When I open the autocomplete suggestions list
     And I click on "WELCOME MESSAGE 02" item in the autocomplete list
@@ -58,11 +58,11 @@ Feature: Session trigger event.
     And I set the following fields to these values:
       | insreference | Welcomemessage2 |
     Then I follow "Condition"
-    Then I should see "Session booking" in the "#condition-session" "css_element"
-    And I should not see "Session module" in the "#fitem_id_condition_session_modules" "css_element"
-    Then the field "Session booking" matches value "Disable"
+    Then I should see "Member in cohorts" in the "#condition-cohort" "css_element"
+    And I should not see "Cohorts" in the "#fitem_id_condition_cohort_cohorts" "css_element"
+    Then the field "Member in cohorts" matches value "Disable"
     Then I wait "5" seconds
-    Then I click on "input[name='override[condition_session_status]'].checkboxgroupautomation" "css_element"
-    And I set the field "Session booking" to "All"
-    And I should see "Session module" in the "#fitem_id_condition_session_modules" "css_element"
+    Then I click on "input[name='override[condition_cohort_status]'].checkboxgroupautomation" "css_element"
+    And I set the field "Member in cohorts" to "All"
+    And I should see "Cohorts" in the "#fitem_id_condition_cohort_cohorts" "css_element"
     And I press "Save changes"
