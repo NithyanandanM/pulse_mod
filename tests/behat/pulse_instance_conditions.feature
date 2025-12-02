@@ -421,7 +421,7 @@ Feature: Pulse automation instances conditions
     Given I am on "Course 1" course homepage with editing mode on
     And I open the activity chooser
     When I click on "Add a new Pulse" "link" in the "Add an activity or resource" "dialogue"
-    And I click on "Add selected activity" "button" in the "Add an activity or resource" "dialogue"
+    #And I click on "Add selected activity" "button" in the "Add an activity or resource" "dialogue"
     And I set the following fields to these values:
         | Title                       | Approval status |
         | Content                     | Approval status |

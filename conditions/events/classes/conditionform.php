@@ -237,7 +237,6 @@ class conditionform extends \mod_pulse\automation\condition_base {
                 return false;
             }
             [$sql, $params] = $result;
-
             $status = $DB->record_exists_sql($sql, $params);
             return $status ? true : false;
         }
@@ -428,14 +427,14 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $name = stripslashes($eventname);
 
         $like = $DB->sql_like('eve.eventname', ':value'); // Like query to fetch the instances assigned this event.
-        $templatelike = $DB->sql_like('pcn.additional', ':eventname', true, true, false, '');
+        $templatelike = $DB->sql_like('pcn.additional', ':eventname');
 
         $sql = "SELECT *, ai.id as id, ai.id as instanceid FROM {pulse_autoinstances} ai
                   JOIN {pulse_autotemplates} pat ON pat.id = ai.templateid
                   JOIN {pulse_condition} pcn ON pcn.templateid = ai.templateid AND pcn.triggercondition = 'events'
              LEFT JOIN {pulse_condition_overrides} co ON co.instanceid = ai.id AND co.triggercondition = 'events'
              LEFT JOIN {pulsecondition_events} eve ON eve.instanceid = ai.id
-                 WHERE ($like OR $templatelike)
+                 WHERE ($like OR (eve.eventname IS NULL AND $templatelike) )
                    AND (
                         co.status > 0 OR (
                             co.status IS NULL AND ai.templateid IN (
@@ -444,11 +443,11 @@ class conditionform extends \mod_pulse\automation\condition_base {
                         )
                     )";
 
-        $eventnameescaped = str_replace('\\', '\\\\', $eventname);
-        $eventnameescaped = '%"event":"' . $eventnameescaped . '"%';
-
+        $eventnameescaped = '%"eventname":"' . $name . '"%';
         $params = ['events' => '%"events"%', 'value' => $name, 'eventname' => $eventnameescaped];
+
         $records = $DB->get_records_sql($sql, $params);
+
         return $records;
     }
 
@@ -673,6 +672,22 @@ class conditionform extends \mod_pulse\automation\condition_base {
     }
 
     /**
+     * Before save the condition form, clean up the event name for fetch instance.
+     *
+     * @param int $templateid
+     * @param array $data
+     * @return int
+     */
+    public function process_save($templateid, $data) {
+        // Clean up event name, for fetch instance.
+        if (!empty($data['event'])) {
+            $data['eventname'] = stripslashes($data['event']);
+        }
+
+        return parent::process_save($templateid, $data);
+    }
+
+    /**
      * After save the condition form, clear the observers from cache and recreated the list.
      *
      * @param int $instanceid
@@ -683,6 +698,10 @@ class conditionform extends \mod_pulse\automation\condition_base {
      */
     public function process_instance_save($instanceid, $data, $templatedata = null) {
         global $DB;
+
+        if (!empty($data['event'])) {
+            $data['eventname'] = stripslashes($data['event']);
+        }
 
         parent::process_instance_save($instanceid, $data, $templatedata);
 
