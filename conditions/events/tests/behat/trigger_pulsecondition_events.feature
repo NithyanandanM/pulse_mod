@@ -171,8 +171,6 @@ Feature: Event trigger event.
   #   And I click on "Template1" item in the autocomplete list
   #   And I click on "Add automation instance" "button" in the ".template-add-form" "css_element"
   #   And I set the field "insreference" to "temp1"
-  #   And I click on "#id_override_frequencylimit" "css_element" in the "#fitem_id_frequencylimit" "css_element"
-  #   And I set the field "frequencylimit" to "1"
   #   And I press "Save changes"
 
   #   # Check the schedule for the instance

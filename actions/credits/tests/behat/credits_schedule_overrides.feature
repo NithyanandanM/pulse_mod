@@ -72,6 +72,10 @@ Feature: Pulse credits action schedule overrides
     And I am on "Course 1" course homepage
     And I follow "Automation"
     And I open credits instance override report
+    And I wait "10" seconds
+    And I trigger cron
+    And I wait "5" seconds
+    And I trigger cron
     Then ".reportbuilder-report" "css_element" should exist
     And the following should exist in the "reportbuilder-table" table:
       | First name | Status  | Scheduled credits | Current Credits   |
@@ -82,6 +86,10 @@ Feature: Pulse credits action schedule overrides
     And I should see "<overridden_value>" in the "Student 1" "table_row"
     And I press the enter key
     And I run the credits allocation scheduled task
+    And I wait "10" seconds
+    And I trigger cron
+    And I wait "5" seconds
+    And I trigger cron
     # And I am on "Course 1" course homepage
     And I open credits instance override report
     And the following should exist in the "reportbuilder-table" table:

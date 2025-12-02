@@ -21,13 +21,12 @@ Feature: Session trigger event.
   Scenario: Check the pulse condition session trigger workflow.
     Given I log in as "admin"
     And I am on "Course 1" course homepage with editing mode on
-    # And I click on "Add an activity or resource" "button"
     And I add "Face-to-Face" activity from the activity chooser
-    And I set the field "Name" to "FaceFace 01"
+    And I set the field "name" to "FaceFace 01"
     And I press "Save and return to course"
     Then "FaceFace 01" activity should be visible
     When I add a "Face-to-Face" to section "1" using the activity chooser
-    And I set the field "Name" to "FaceFace 02"
+    And I set the field "name" to "FaceFace 02"
     And I press "Save and return to course"
     Then "FaceFace 02" activity should be visible
     Then I create automation template with the following fields to these values:
