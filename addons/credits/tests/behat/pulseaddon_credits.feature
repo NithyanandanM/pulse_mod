@@ -48,8 +48,13 @@ Feature: Credits using pulse module.
     And I press "Enrol me"
     And I log out
     When I log in as "admin"
-    # And I trigger cron
     And I run the addon credits allocation task
+    Then I wait "10" seconds
+    And I run the addon credits allocation task
+    And I am on homepage
+    And I trigger cron
+    Then I wait "10" seconds
+    Then I trigger cron
     And I am on homepage
     And I navigate to "Users > Browse list of users" in site administration
     And I should see "student User 1"

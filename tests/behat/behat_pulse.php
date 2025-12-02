@@ -581,7 +581,7 @@ class behat_pulse extends behat_base {
     /**
      * Selects an activity from the activity chooser and clicks "Add selected activity".
      *
-     * @Given /^I add "(?P<activity_name_string>(?:[^"]\\")*)" activity from the activity chooser$/
+     * @Given /^I add "(?P<activity_name_string>(?:[^"]|\\")*)" activity from the activity chooser$/
      * @param string $activityname
      */
     public function i_add_activity_from_the_activity_chooser($activityname) {
