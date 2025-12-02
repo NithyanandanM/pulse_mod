@@ -91,9 +91,9 @@ Feature: Pulse credits action schedule overrides
     Examples:
       | initial_credits | override_amount | overridden_value    | expected_credits   |
       | 0               | 100             | 100.00 (Overridden) | 100.00             |
-      # | 50              | 200.50          | 200.50 (Overridden) | 250.50             |
-      # | 100             | 0               | 0.00 (Overridden)   | 100.00             |
-      # | 250             |                 | No override         | 300.00             |
+      | 50              | 200.50          | 200.50 (Overridden) | 250.50             |
+      | 100             | 0               | 0.00 (Overridden)   | 100.00             |
+      | 250             |                 | No override         | 300.00             |
 
   @javascript
   Scenario: Schedule override persists after instance update

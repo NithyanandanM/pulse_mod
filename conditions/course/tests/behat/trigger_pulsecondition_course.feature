@@ -1,6 +1,6 @@
-@mod @mod_pulse @pulse_triggercondition  @pulsecondition_session
-Feature: Session trigger event.
-  In To Verify Pulse Automation Template Conditions for Session as a Teacher.
+@mod @mod_pulse @pulse_triggercondition  @pulsecondition_course
+Feature: Course Completion trigger event.
+  In To Verify Pulse Automation Template Conditions for Course Completion as a Teacher.
 
   Background:
     Given the following "course" exist:
@@ -18,18 +18,8 @@ Feature: Session trigger event.
       | user2    | C1     | student        |
 
   @javascript
-  Scenario: Check the pulse condition session trigger workflow.
+  Scenario: Check the pluse condition course trigger workflow.
     Given I log in as "admin"
-    And I am on "Course 1" course homepage with editing mode on
-    # And I click on "Add an activity or resource" "button"
-    And I add "Face-to-Face" activity from the activity chooser
-    And I set the field "Name" to "FaceFace 01"
-    And I press "Save and return to course"
-    Then "FaceFace 01" activity should be visible
-    When I add a "Face-to-Face" to section "1" using the activity chooser
-    And I set the field "Name" to "FaceFace 02"
-    And I press "Save and return to course"
-    Then "FaceFace 02" activity should be visible
     Then I create automation template with the following fields to these values:
       | Title     | WELCOME MESSAGE 01 |
       | Reference | Welcomemessage     |
@@ -37,8 +27,8 @@ Feature: Session trigger event.
       | Title     | WELCOME MESSAGE 02 |
       | Reference | Welcomemessage02   |
     Then I create "Welcomemessage" template with the set the condition:
-      | Session booking  | All |
-      | Trigger operator | All |
+      | Course completion | All |
+      | Trigger operator  | All |
     And I am on "Course 1" course homepage
     And I follow "Automation"
     When I open the autocomplete suggestions list
@@ -47,10 +37,8 @@ Feature: Session trigger event.
     And I set the following fields to these values:
       | insreference | Welcomemessage |
     Then I follow "Condition"
-    Then I should see "Session booking"
-    Then the field "Session booking" matches value "All"
-    And I should see "Session module"
-    Then I should see "FaceFace 01" in the "#fitem_id_condition_session_modules" "css_element"
+    Then I should see "Course completion"
+    Then the field "Course completion" matches value "All"
     And I press "Save changes"
     When I open the autocomplete suggestions list
     And I click on "WELCOME MESSAGE 02" item in the autocomplete list
@@ -58,11 +46,9 @@ Feature: Session trigger event.
     And I set the following fields to these values:
       | insreference | Welcomemessage2 |
     Then I follow "Condition"
-    Then I should see "Session booking" in the "#condition-session" "css_element"
-    And I should not see "Session module" in the "#fitem_id_condition_session_modules" "css_element"
-    Then the field "Session booking" matches value "Disable"
+    Then I should see "Course completion" in the "#condition-course" "css_element"
+    Then the field "Course completion" matches value "Disable"
     Then I wait "5" seconds
-    Then I click on "input[name='override[condition_session_status]'].checkboxgroupautomation" "css_element"
-    And I set the field "Session booking" to "All"
-    And I should see "Session module" in the "#fitem_id_condition_session_modules" "css_element"
+    Then I click on "input[name='override[condition_course_status]'].checkboxgroupautomation" "css_element"
+    And I set the field "Course completion" to "All"
     And I press "Save changes"

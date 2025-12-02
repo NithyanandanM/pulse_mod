@@ -189,6 +189,8 @@ class manage {
             // Find list of actions.
             $actionplugins = \mod_pulse\plugininfo\pulseaction::get_list();
 
+            $conditionplugins = \mod_pulse\plugininfo\pulsecondition::get_list();
+
             // Added the item id for file editors.
             $overriddenelements['instanceid'] = $instanceid;
             $overriddenelements['courseid'] = $this->courseid;
@@ -197,6 +199,19 @@ class manage {
             foreach ($actionplugins as $component => $pluginbase) {
                 $pluginbase->postupdate_editor_fileareas($overriddenelements, $context);
                 $pluginbase->process_instance_save($instanceid, $overriddenelements);
+            }
+
+            // Fetch the related template data.
+            $templateformdata = \mod_pulse\automation\templates::create($this->templateid)->get_formdata();
+
+            // Process condition plugins with their configuration data.
+            foreach ($conditionplugins as $component => $pluginbase) {
+                // Get condition-specific data from template or use empty array as default.
+                $conditiondata = [];
+                if (isset($templateformdata->condition[$component])) {
+                    $conditiondata = $templateformdata->condition[$component];
+                }
+                $pluginbase->process_instance_save($instanceid, $conditiondata, $templateformdata);
             }
         }
 
