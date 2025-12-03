@@ -55,48 +55,6 @@ Feature: Activity trigger event.
       | Title     | Notification1 |
       | Reference | notification1 |
     And I press "Save changes"
-
-  # Scenario: Check the pluse condition activity trigger workflow
-  #   Given I log in as "admin"
-  #   Then I create automation template with the following fields to these values:
-  #     | Title     | WELCOME MESSAGE 01 |
-  #     | Reference | Welcomemessage     |
-  #   Then I create automation template with the following fields to these values:
-  #     | Title     | WELCOME MESSAGE 02 |
-  #     | Reference | Welcomemessage02   |
-  #   Then I create "Welcomemessage" template with the set the condition:
-  #     | Activity completion | All |
-  #     | Trigger operator    | All |
-  #   And I am on "Course 1" course homepage
-  #   And I follow "Automation"
-  #   When I open the autocomplete suggestions list
-  #   And I click on "WELCOME MESSAGE 01" item in the autocomplete list
-  #   Then I press "Add automation instance"
-  #   And I set the following fields to these values:
-  #     | insreference | Welcomemessage |
-  #   Then I follow "Condition"
-  #   Then I should see "Activity completion"
-  #   Then the field "Activity completion" matches value "All"
-  #   And I should see "Select activities"
-  #   Then I click on "#fitem_id_condition_activity_modules .form-autocomplete-downarrow" "css_element"
-  #   Then I should see "TestPage 01" in the "#fitem_id_condition_activity_modules .form-autocomplete-suggestions" "css_element"
-  #   Then I should see "TestPage 02" in the "#fitem_id_condition_activity_modules .form-autocomplete-suggestions" "css_element"
-  #   And I press "Save changes"
-  #   When I open the autocomplete suggestions list
-  #   And I click on "WELCOME MESSAGE 02" item in the autocomplete list
-  #   Then I press "Add automation instance"
-  #   And I set the following fields to these values:
-  #     | insreference | Welcomemessage2 |
-  #   Then I follow "Condition"
-  #   Then I should see "Activity completion"
-  #   And I should not see "Select activities"
-  #   Then the field "Activity completion" matches value "Disable"
-  #   Then I wait "5" seconds
-  #   Then I click on "input[name='override[condition_activity_status]'].checkboxgroupautomation" "css_element"
-  #   And I set the field "Activity completion" to "All"
-  #   And I should see "Select activities"
-  #   And I press "Save changes"
-
   Scenario: Activity completion condition with activity count
     And I am on "Course 1" course homepage
 

@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component    = 'pulseaddon_availability';
 $plugin->release      = '1.0';
-$plugin->version      = 2024122607;
+$plugin->version      = 2024122608;
 $plugin->requires     = 2021051700; // Moodle 3.11.
 $plugin->maturity     = MATURITY_STABLE;
 $plugin->supported    = [401, 405];

@@ -25,5 +25,5 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = "pulseaction_notification";
-$plugin->version = 2024122720;
+$plugin->version = 2024122721;
 $plugin->supported = [401, 405];
