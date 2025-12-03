@@ -139,8 +139,8 @@ Feature: Event trigger event.
     And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
     And I switch to a second window
     And the following should exist in the "reportbuilder-table" table:
-      | Course full name | Message type | Subject                       | Full name      | Time created                    | Scheduled time                  | Status |
-      | Course 1         | Template1    | Event completion notification | student User 1 | ##now##%A, %d %B %Y, %I:%M %p## | ##now##%A, %d %B %Y, %I:%M %p## | sent   |
+      | Course full name | Message type | Subject                       | Full name      | Time created          | Scheduled time        | Status |
+      | Course 1         | Template1    | Event completion notification | student User 1 | ##now##%A, %d %B %Y## | ##now##%A, %d %B %Y## | sent   |
     And I close all opened windows
 
   Scenario: Event context of event condition - selected activities
