@@ -362,7 +362,10 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $condition = new self();
 
         foreach ($instances as $key => $instance) {
-            $additional = $instance->additional ? json_decode($instance->additional) : (object)[];
+            $additional = $instance->additional ? json_decode($instance->additional, true) : [];
+            $tempadditional = $instance->tempadditional ? json_decode($instance->tempadditional, true) : [];
+
+            $additional = (object) array_merge((array) $tempadditional, (array) $additional);
 
             // Event context to trigger the instance.
             $contextconfigured = (int) ($additional->eventscontext ?? self::EVENTSCONTEXT_NONE);
@@ -371,7 +374,7 @@ class conditionform extends \mod_pulse\automation\condition_base {
             if (
                 property_exists($additional, 'modules')
                 && ((int) $additional->modules) > 0
-                && (int) $additional->modules !== $data['contextinstanceid']
+                && ((int) $additional->modules !== (int) $data['contextinstanceid'])
                 && $data['contextlevel'] == CONTEXT_MODULE
                 && $contextconfigured == self::EVENTSCONTEXT_SELECTED
             ) {
@@ -429,7 +432,8 @@ class conditionform extends \mod_pulse\automation\condition_base {
         $like = $DB->sql_like('eve.eventname', ':value'); // Like query to fetch the instances assigned this event.
         $templatelike = $DB->sql_like('pcn.additional', ':eventname');
 
-        $sql = "SELECT *, ai.id as id, ai.id as instanceid FROM {pulse_autoinstances} ai
+        $sql = "SELECT *, ai.id as id, ai.id as instanceid, pcn.additional as tempadditional, co.additional as additional
+                  FROM {pulse_autoinstances} ai
                   JOIN {pulse_autotemplates} pat ON pat.id = ai.templateid
                   JOIN {pulse_condition} pcn ON pcn.templateid = ai.templateid AND pcn.triggercondition = 'events'
              LEFT JOIN {pulse_condition_overrides} co ON co.instanceid = ai.id AND co.triggercondition = 'events'
