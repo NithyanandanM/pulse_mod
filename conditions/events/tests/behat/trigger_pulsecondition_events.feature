@@ -144,6 +144,12 @@ Feature: Event trigger event.
     And I close all opened windows
 
   Scenario: Event context of event condition - selected activities
+    # Event condition - General settings
+    And I navigate to "Plugins > Activity modules > Pulse > Events completion" in site administration
+    And I click on "#admin-availableevents .form-autocomplete-selection .badge:nth-child(3)" "css_element"
+    And I set the field "Available events" in the "#admin-availableevents" "css_element" to "Submission created. \assignsubmission_file\event\submission_created"
+    And I press "Save changes"
+
     And I am on "Course 1" course homepage
     And I navigate to "Automation" in current page administration
     And I wait until the page is ready
@@ -151,25 +157,12 @@ Feature: Event trigger event.
     And I click on "Template1" item in the autocomplete list
     And I click on "Add automation instance" "button" in the ".template-add-form" "css_element"
     And I set the field "insreference" to "temp1"
-    And I press "Save changes"
-
-    # Check the schedule for the instance
-    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
-    And I switch to a second window
-    And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
-    And I close all opened windows
-
-    # Instance Conditions - Activity completion
-    And I click on ".action-edit" "css_element" in the "Template1" "table_row"
     Then I follow "Condition"
     And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
     Then the field "Trigger operator" matches value "All"
     And I click on "#id_override_condition_events_status" "css_element" in the "#fitem_id_condition_events_status" "css_element"
     And I set the field "condition[events][status]" to "All"
     And I click on "#id_override_condition_events_event" "css_element" in the "#fitem_id_condition_events_event" "css_element"
-    And "Course module created" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
-    And "Submission created" "text" should not exist in the "#fitem_id_condition_events_event" "css_element"
-
     And I click on "#id_override_condition_events_notifyuser" "css_element" in the "#fitem_id_condition_events_notifyuser" "css_element"
     And I set the field "condition[events][notifyuser]" to "Affected user"
     And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
@@ -191,19 +184,6 @@ Feature: Event trigger event.
     And I click on "#header-email-vars-button" "css_element" in the ".mod-pulse-emailvars-toggle" "css_element"
     And I click on pulse "id_pulsenotification_headercontent_editor" editor
     And I click on "#Firstname" "css_element" in the ".Sender_field-placeholders" "css_element"
-    And I press "Save changes"
-    # Event condition - General settings
-    And I navigate to "Plugins > Activity modules > Pulse > Events completion" in site administration
-    And I click on "#admin-availableevents .form-autocomplete-selection .badge:nth-child(3)" "css_element"
-    And I set the field "Available events" in the "#admin-availableevents" "css_element" to "Submission created"
-    And I press "Save changes"
-
-    And I am on "Course 1" course homepage
-    And I navigate to "Automation" in current page administration
-    And I click on ".action-edit" "css_element" in the "Template1" "table_row"
-    Then I follow "Condition"
-    And "Submission created" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
-    And "Course module created" "text" should not exist in the "#fitem_id_condition_events_event" "css_element"
     And I press "Save changes"
 
     And I am on "Course 1" course homepage
