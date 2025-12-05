@@ -1,6 +1,6 @@
-@mod @mod_pulse @pulse_triggercondition @pulsecondition_events @javascript @_file_upload
-Feature: Event trigger event.
-  In To Verify Pulse Automation Template Conditions for Event as a Teacher.
+@mod @mod_pulse @pulse_triggercondition @pulsecondition_coursedates @javascript @_file_upload
+Feature: coursedates trigger event.
+  In To Verify Pulse Automation Template Conditions for coursedates as a Teacher.
 
   Background:
     Given the following "course" exist:
@@ -47,22 +47,20 @@ Feature: Event trigger event.
       | TestPage 02   | 1 |
     And I press "Save changes"
 
-    And I navigate to "Plugins > Activity modules > Pulse > Automation templates" in site administration
-    Then I should see "Automation templates" in the "#region-main h2" "css_element"
-    And I should see "Create new template"
-    Then I click on "Create new template" "button"
-    Then I set the following fields to these values:
+    Then I create automation template with the following fields to these values:
       | Title     | Template1 |
       | Reference | temp1     |
-    Then I press "Save changes"
-
-    Then I create automation template with the following fields to these values:
+    And I click on "Create new template" "button"
+    Then I set the following fields to these values:
       | Title     | Notification1 |
       | Reference | notification1 |
+    And I press "Save changes"
 
-  @javascript
-  Scenario: Event condition with event context - everywhere
+  Scenario: Course dates condition with Start date - before
     And I am on "Course 1" course homepage
+    And I navigate to "Settings" in current page administration
+    And I set the field "Course start date" to "##today +2 days##"
+    And I press "Save and display"
     And I navigate to "Automation" in current page administration
     And I wait until the page is ready
     And I open the autocomplete suggestions list
@@ -73,21 +71,21 @@ Feature: Event trigger event.
     And I set the field "frequencylimit" to "1"
     And I press "Save changes"
 
+    # Check the schedule for the instance
+    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
+    And I switch to a second window
+    And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
+    And I close all opened windows
+
     # Instance Conditions - Activity completion
     And I click on ".action-edit" "css_element" in the "Template1" "table_row"
     Then I follow "Condition"
     And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
     Then the field "Trigger operator" matches value "All"
-    And I click on "#id_override_condition_events_status" "css_element" in the "#fitem_id_condition_events_status" "css_element"
-    And I set the field "condition[events][status]" to "All"
-    And I click on "#id_override_condition_events_event" "css_element" in the "#fitem_id_condition_events_event" "css_element"
-    And "Course module created" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
-    And "Submission created" "text" should not exist in the "#fitem_id_condition_events_event" "css_element"
-
-    And I click on "#id_override_condition_events_notifyuser" "css_element" in the "#fitem_id_condition_events_notifyuser" "css_element"
-    And I set the field "condition[events][notifyuser]" to "Related user"
-    And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
-    And I set the field "condition[events][eventscontext]" to "Everywhere"
+    And I click on "#id_override_condition_coursedates_status" "css_element" in the "#fitem_id_condition_coursedates_status" "css_element"
+    And I set the field "condition[coursedates][status]" to "All"
+    And I click on "#id_override_condition_coursedates_type" "css_element" in the "#fitem_id_condition_coursedates_type" "css_element"
+    And I set the field "condition[coursedates][type]" to "Course start date"
 
     # Instance Notifications
     And I click on "Notification" "link" in the "#automation-tabs" "css_element"
@@ -98,40 +96,22 @@ Feature: Event trigger event.
     And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
     And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Student"
 
+    # Delay before notification
+    And I click on "#id_override_pulsenotification_notifydelay" "css_element" in the "#fitem_id_pulsenotification_notifydelay" "css_element"
+    And I set the field "pulsenotification_notifydelay" to "Before"
+    And I click on "#id_override_pulsenotification_delayduration" "css_element" in the "#fitem_id_pulsenotification_delayduration" "css_element"
+    And I set the field "pulsenotification_delayduration[number]" to "2"
+    And I set the field "pulsenotification_delayduration[timeunit]" to "days"
+
+    # Notification mail setup
     And I click on "#id_override_pulsenotification_subject" "css_element" in the "#fitem_id_pulsenotification_subject" "css_element"
-    And I set the field "pulsenotification_subject" to "Event completion notification"
+    And I set the field "pulsenotification_subject" to "Course date notification"
     And I click on "#id_override_pulsenotification_headercontent_editor" "css_element" in the "#fitem_id_pulsenotification_headercontent_editor" "css_element"
     And I click on "#header-email-vars-button" "css_element" in the ".mod-pulse-emailvars-toggle" "css_element"
     And I click on pulse "id_pulsenotification_headercontent_editor" editor
     And I click on "#Firstname" "css_element" in the ".Sender_field-placeholders" "css_element"
     And I press "Save changes"
 
-    # Event condition - General settings
-    And I navigate to "Plugins > Activity modules > Pulse > Events completion" in site administration
-    And I click on "#admin-availableevents .form-autocomplete-selection .badge:nth-child(3)" "css_element"
-    And I set the field "Available events" in the "#admin-availableevents" "css_element" to "Submission created"
-    And I press "Save changes"
-
-    And I am on "Course 1" course homepage
-    And I navigate to "Automation" in current page administration
-    And I click on ".action-edit" "css_element" in the "Template1" "table_row"
-    Then I follow "Condition"
-    And "Submission created" "text" should exist in the "#fitem_id_condition_events_event" "css_element"
-    And "Course module created" "text" should not exist in the "#fitem_id_condition_events_event" "css_element"
-    And I press "Save changes"
-    And I log out
-
-    And I log in as "student1"
-    And I am on "Course 1" course homepage
-    And I am on the "Assign4" "assign activity" page
-    And I click on "Add submission" "button"
-    And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
-    And I press "Save changes"
-    And I click on "Submit assignment" "button"
-    And I click on "Continue" "button"
-    And I log out
-
-    # Completion Status
     # Check the schedule for the instance
     And I log in as "admin"
     And I am on "Course 1" course homepage
@@ -139,35 +119,40 @@ Feature: Event trigger event.
     And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
     And I switch to a second window
     And the following should exist in the "reportbuilder-table" table:
-      | Course full name | Message type | Subject                       | Full name      | Time created          | Scheduled time        | Status |
-      | Course 1         | Template1    | Event completion notification | student User 1 | ##now##%A, %d %B %Y## | ##now##%A, %d %B %Y## | sent   |
+      | Course full name | Message type | Subject                   | Full name      | Time created          | Scheduled time        | Status |
+      | Course 1         | Template1    | Course date notification  | student User 1 | ##now##%A, %d %B %Y## | ##now##%A, %d %B %Y## | Queued |
     And I close all opened windows
 
-  Scenario: Event context of event condition - selected activities
-    # Event condition - General settings
-    And I navigate to "Plugins > Activity modules > Pulse > Events completion" in site administration
-    And I click on "#admin-availableevents .form-autocomplete-selection .badge:nth-child(3)" "css_element"
-    And I set the field "Available events" in the "#admin-availableevents" "css_element" to "Submission created. \assignsubmission_file\event\submission_created"
-    And I press "Save changes"
-
+  Scenario: Course dates condition with End date - before
     And I am on "Course 1" course homepage
+    And I navigate to "Settings" in current page administration
+    And I set the field "Course end date" to "##today +2 days##"
+    And I press "Save and display"
     And I navigate to "Automation" in current page administration
     And I wait until the page is ready
     And I open the autocomplete suggestions list
     And I click on "Template1" item in the autocomplete list
     And I click on "Add automation instance" "button" in the ".template-add-form" "css_element"
     And I set the field "insreference" to "temp1"
+    And I click on "#id_override_frequencylimit" "css_element" in the "#fitem_id_frequencylimit" "css_element"
+    And I set the field "frequencylimit" to "1"
+    And I press "Save changes"
+
+    # Check the schedule for the instance
+    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
+    And I switch to a second window
+    And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
+    And I close all opened windows
+
+    # Instance Conditions - Activity completion
+    And I click on ".action-edit" "css_element" in the "Template1" "table_row"
     Then I follow "Condition"
     And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
     Then the field "Trigger operator" matches value "All"
-    And I click on "#id_override_condition_events_status" "css_element" in the "#fitem_id_condition_events_status" "css_element"
-    And I set the field "condition[events][status]" to "All"
-    And I click on "#id_override_condition_events_event" "css_element" in the "#fitem_id_condition_events_event" "css_element"
-    And I click on "#id_override_condition_events_notifyuser" "css_element" in the "#fitem_id_condition_events_notifyuser" "css_element"
-    And I set the field "condition[events][notifyuser]" to "Affected user"
-    And I click on "#id_override_condition_events_eventscontext" "css_element" in the "#fitem_id_condition_events_eventscontext" "css_element"
-    And I set the field "condition[events][eventscontext]" to "Selected activity"
-    And I set the field "Event module" in the "#condition-events" "css_element" to "Assign4"
+    And I click on "#id_override_condition_coursedates_status" "css_element" in the "#fitem_id_condition_coursedates_status" "css_element"
+    And I set the field "condition[coursedates][status]" to "Upcoming"
+    And I click on "#id_override_condition_coursedates_type" "css_element" in the "#fitem_id_condition_coursedates_type" "css_element"
+    And I set the field "condition[coursedates][type]" to "Course end date"
 
     # Instance Notifications
     And I click on "Notification" "link" in the "#automation-tabs" "css_element"
@@ -176,44 +161,101 @@ Feature: Event trigger event.
     And I click on "#id_override_pulsenotification_sender" "css_element" in the "#fitem_id_pulsenotification_sender" "css_element"
     And I set the field "pulsenotification_sender" to "Course teacher"
     And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
-    And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Non-editing teacher, Teacher"
+    And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Student"
 
+    # Delay before notification
+    And I click on "#id_override_pulsenotification_notifydelay" "css_element" in the "#fitem_id_pulsenotification_notifydelay" "css_element"
+    And I set the field "pulsenotification_notifydelay" to "Before"
+    And I click on "#id_override_pulsenotification_delayduration" "css_element" in the "#fitem_id_pulsenotification_delayduration" "css_element"
+    And I set the field "pulsenotification_delayduration[number]" to "2"
+    And I set the field "pulsenotification_delayduration[timeunit]" to "days"
+
+    # Notification mail setup
     And I click on "#id_override_pulsenotification_subject" "css_element" in the "#fitem_id_pulsenotification_subject" "css_element"
-    And I set the field "pulsenotification_subject" to "Event completion notification"
+    And I set the field "pulsenotification_subject" to "Course date notification"
     And I click on "#id_override_pulsenotification_headercontent_editor" "css_element" in the "#fitem_id_pulsenotification_headercontent_editor" "css_element"
     And I click on "#header-email-vars-button" "css_element" in the ".mod-pulse-emailvars-toggle" "css_element"
     And I click on pulse "id_pulsenotification_headercontent_editor" editor
     And I click on "#Firstname" "css_element" in the ".Sender_field-placeholders" "css_element"
     And I press "Save changes"
 
-    And I am on "Course 1" course homepage
+    And the following "users" exist:
+      | username | firstname | lastname | email             |
+      | student2 | student   | User 2   | student2@test.com |
+    And the following "course enrolments" exist:
+      | user     | course | role    |
+      | student2 | C1     | student |
+
+    # Check the schedule for the instance
     And I navigate to "Automation" in current page administration
+    And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
+    And I switch to a second window
+    And the following should exist in the "reportbuilder-table" table:
+      | Course full name | Message type | Subject                   | Full name      | Time created          | Scheduled time        | Status |
+      | Course 1         | Template1    | Course date notification  | student User 1 | ##now##%A, %d %B %Y## | ##now##%A, %d %B %Y## | Queued |
+    And I close all opened windows
+
+  Scenario: Course dates condition with Start date - after
+    And I am on "Course 1" course homepage
+    And I navigate to "Settings" in current page administration
+    And I set the field "Course start date" to "##today +2 days##"
+    And I press "Save and display"
+    And I navigate to "Automation" in current page administration
+    And I wait until the page is ready
+    And I open the autocomplete suggestions list
+    And I click on "Template1" item in the autocomplete list
+    And I click on "Add automation instance" "button" in the ".template-add-form" "css_element"
+    And I set the field "insreference" to "temp1"
+    And I click on "#id_override_frequencylimit" "css_element" in the "#fitem_id_frequencylimit" "css_element"
+    And I set the field "frequencylimit" to "1"
+    And I press "Save changes"
 
     # Check the schedule for the instance
     And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
     And I switch to a second window
     And I should see "Nothing to display" in the ".reportbuilder-wrapper" "css_element"
     And I close all opened windows
-    And I log out
 
-    And I log in as "student1"
-    And I am on "Course 1" course homepage
-    And I am on the "Assign4" "assign activity" page
-    And I click on "Add submission" "button"
-    And I upload "/mod/pulse/tests/fixtures/image.jpg" file to "File submissions" filemanager
+    # Instance Conditions - Activity completion
+    And I click on ".action-edit" "css_element" in the "Template1" "table_row"
+    Then I follow "Condition"
+    And I click on "#id_override_triggeroperator" "css_element" in the "#pulse-condition-tab" "css_element"
+    Then the field "Trigger operator" matches value "All"
+    And I click on "#id_override_condition_coursedates_status" "css_element" in the "#fitem_id_condition_coursedates_status" "css_element"
+    And I set the field "condition[coursedates][status]" to "All"
+    And I click on "#id_override_condition_coursedates_type" "css_element" in the "#fitem_id_condition_coursedates_type" "css_element"
+    And I set the field "condition[coursedates][type]" to "Course start date"
+
+    # Instance Notifications
+    And I click on "Notification" "link" in the "#automation-tabs" "css_element"
+    And I click on "#id_override_pulsenotification_actionstatus" "css_element" in the "#fitem_id_pulsenotification_actionstatus" "css_element"
+    And I set the field "id_pulsenotification_actionstatus" to "Enabled"
+    And I click on "#id_override_pulsenotification_sender" "css_element" in the "#fitem_id_pulsenotification_sender" "css_element"
+    And I set the field "pulsenotification_sender" to "Course teacher"
+    And I click on "#id_override_pulsenotification_recipients" "css_element" in the "#fitem_id_pulsenotification_recipients" "css_element"
+    And I set the field "Recipients" in the "#pulse-action-notification" "css_element" to "Student"
+
+    # Delay before notification
+    And I click on "#id_override_pulsenotification_notifydelay" "css_element" in the "#fitem_id_pulsenotification_notifydelay" "css_element"
+    And I set the field "pulsenotification_notifydelay" to "After"
+    And I click on "#id_override_pulsenotification_delayduration" "css_element" in the "#fitem_id_pulsenotification_delayduration" "css_element"
+    And I set the field "pulsenotification_delayduration[number]" to "1"
+    And I set the field "pulsenotification_delayduration[timeunit]" to "days"
+
+    # Notification mail setup
+    And I click on "#id_override_pulsenotification_subject" "css_element" in the "#fitem_id_pulsenotification_subject" "css_element"
+    And I set the field "pulsenotification_subject" to "Course date notification"
+    And I click on "#id_override_pulsenotification_headercontent_editor" "css_element" in the "#fitem_id_pulsenotification_headercontent_editor" "css_element"
+    And I click on "#header-email-vars-button" "css_element" in the ".mod-pulse-emailvars-toggle" "css_element"
+    And I click on pulse "id_pulsenotification_headercontent_editor" editor
+    And I click on "#Firstname" "css_element" in the ".Sender_field-placeholders" "css_element"
     And I press "Save changes"
-    And I click on "Submit assignment" "button"
-    And I click on "Continue" "button"
-    And I log out
 
-    # Completion Status
     # Check the schedule for the instance
-    And I log in as "admin"
-    And I am on "Course 1" course homepage
-    And I navigate to "Automation" in current page administration
+
     And I click on "#notification-action-report" "css_element" in the "Template1" "table_row"
     And I switch to a second window
     And the following should exist in the "reportbuilder-table" table:
-      | Course full name | Message type | Subject                       | Full name      |
-      | Course 1         | Template1    | Event completion notification | Teacher User 1 |
+      | Course full name | Message type | Subject                   | Full name      | Time created          | Scheduled time        | Status |
+      | Course 1         | Template1    | Course date notification  | student User 1 | ##now##%A, %d %B %Y## | ##today +3days##%A, %d %B %Y## | Queued |
     And I close all opened windows
